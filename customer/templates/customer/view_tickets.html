@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyHigh Airlines - My Support Tickets</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f6f5; /* Matches admin_dashboard.html */
+            overflow-x: hidden;
+        }
+
+        .tickets-container {
+            background: #fff; /* Solid white to match admin_dashboard.html */
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); /* Matches admin_dashboard.html */
+            padding: 40px;
+            width: 100%;
+            max-width: 1000px;
+            text-align: center;
+            position: relative;
+            margin: 20px;
+            transition: transform 0.3s ease; /* Matches dashboard-item hover */
+        }
+
+        .tickets-container:hover {
+            transform: translateY(-5px); /* Matches dashboard-item hover */
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            color: #007bff; /* Matches admin_dashboard.html */
+            margin-bottom: 30px;
+            font-size: 36px; /* Matches admin_dashboard.html content h2 */
+            font-weight: 700;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff; /* Matches view_bookings.html bookings-table */
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); /* Matches view_bookings.html */
+            margin-bottom: 30px; /* Space for button */
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+        }
+
+        th {
+            background: #007bff; /* Matches view_bookings.html */
+            color: #fff;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        td {
+            border-bottom: 1px solid #e0e0e0;
+            color: #333;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background-color: rgba(0, 123, 255, 0.1); /* Matches view_bookings.html */
+        }
+
+        a {
+            color: #007bff; /* Matches view_bookings.html action-link */
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+
+        .back-btn {
+            background: #007bff; /* Matches admin_dashboard.html action-btn */
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            display: block;
+            transition: background 0.3s ease, transform 0.2s ease;
+            margin: 20px auto 0; /* Centered horizontally */
+            text-align: center;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .back-btn:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+        }
+
+        .airplane {
+            position: fixed;
+            top: 20px;
+            left: -100px;
+            width: 60px;
+            height: 60px;
+            background-color: #007bff; /* Updated to match color scheme */
+            clip-path: polygon(0% 50%, 50% 0%, 100% 50%, 80% 50%, 50% 100%, 20% 50%);
+            animation: fly 30s linear infinite;
+            z-index: 0; /* Ensure behind content */
+        }
+
+        @keyframes fly {
+            0% { transform: translateX(-100px) translateY(0) rotate(45deg); }
+            100% { transform: translateX(calc(100vw + 100px)) translateY(-100px) rotate(45deg); }
+        }
+
+        .clouds {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            animation: float linear infinite;
+        }
+
+        .cloud:nth-child(1) { width: 100px; height: 40px; top: 10%; left: 10%; animation-duration: 20s; }
+        .cloud:nth-child(2) { width: 80px; height: 30px; top: 20%; right: 15%; animation-duration: 25s; }
+        .cloud:nth-child(3) { width: 120px; height: 50px; bottom: 15%; left: 20%; animation-duration: 30s; }
+
+        @keyframes float {
+            0% { transform: translateX(100vw); }
+            100% { transform: translateX(-100%); }
+        }
+
+        @media (max-width: 768px) {
+            .tickets-container {
+                padding: 20px;
+                margin: 10px;
+            }
+
+            h2 {
+                font-size: 28px;
+            }
+
+            table {
+                font-size: 14px;
+            }
+
+            th, td {
+                padding: 8px 10px;
+            }
+
+            .back-btn {
+                padding: 8px 16px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="clouds">
+        <div class="cloud"></div>
+        <div class="cloud"></div>
+        <div class="cloud"></div>
+    </div>
+    <div class="airplane"></div>
+    <div class="tickets-container">
+        <h2>My Support Tickets</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Subject</th>
+                    <th>Status</th>
+                    <th>Created At</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ticket in tickets %}
+                <tr>
+                    <td>{{ ticket.id }}</td>
+                    <td>{{ ticket.subject }}</td>
+                    <td>{{ ticket.status }}</td>
+                    <td>{{ ticket.created_at }}</td>
+                    <td>
+                        <a href="{% url 'customer:ticket_detail' ticket.id %}">View Ticket</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5">No tickets submitted.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{% url 'authentication:customer_dashboard' %}" class="back-btn">Back to Dashboard</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyHigh Airlines - Request Refund</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            width: 100%;
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f6f5;
+        }
+
+        /* Sticky Header */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            height: 40px;
+        }
+
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            color: #007bff;
+        }
+
+        /* Main Layout */
+        .container {
+            display: flex;
+            min-height: calc(100vh - 120px);
+            width: 100%;
+            margin-top: 70px;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 250px;
+            background: #fff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 20px;
+            position: fixed;
+            height: calc(100vh - 120px);
+            overflow-y: auto;
+        }
+
+        .sidebar h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            color: #007bff;
+            margin-bottom: 15px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            padding: 10px 15px;
+            display: block;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .sidebar ul li a:hover {
+            background: #007bff;
+            color: #fff;
+        }
+
+        .sidebar ul li a.active {
+            background: #007bff;
+            color: #fff;
+        }
+
+        /* Main Content */
+        .content {
+            flex: 1;
+            background: #fff;
+            padding: 30px;
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            min-height: calc(100vh - 120px);
+        }
+
+        .content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        /* Breadcrumbs */
+        .breadcrumbs {
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .breadcrumbs a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .breadcrumbs a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumbs span {
+            color: #666;
+            margin: 0 5px;
+        }
+
+        /* Refund Form */
+        .refund-form {
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .refund-form h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #007bff;
+            margin-bottom: 15px;
+        }
+
+        .refund-form p {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .input-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            min-height: 100px;
+            resize: vertical;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-group textarea:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        .action-btn {
+            background: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-block;
+            transition: background 0.3s ease, transform 0.2s ease;
+            cursor: pointer;
+        }
+
+        .action-btn:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .back-link {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 14px;
+            display: block;
+            margin-top: 15px;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Messages */
+        .messages {
+            margin-bottom: 20px;
+        }
+
+        .messages .error {
+            color: #c0392b;
+            font-size: 14px;
+        }
+
+        .messages .success {
+            color: #28a745;
+            font-size: 14px;
+        }
+
+        /* Footer */
+        .footer {
+            background: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer p {
+            font-size: 14px;
+            margin: 0;
+            flex: 1;
+            text-align: left;
+        }
+
+        .logout-btn {
+            background: #c0392b;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .logout-btn:hover {
+            background: #a32a1f;
+            transform: translateY(-2px);
+        }
+
+        /* Inline Form Style */
+        .inline-form {
+            display: inline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 200px;
+            }
+
+            .content {
+                margin-left: 200px;
+                width: calc(100% - 200px);
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .footer {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+            }
+
+            .content {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .refund-form {
+                padding: 15px;
+            }
+
+            .content h2 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sticky Header -->
+    <div class="header">
+        <div class="logo-container">
+            <img src="assets/logo.png" alt="SkyHigh Airlines Logo" class="logo">
+            <h1>Request Refund</h1>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Main Content -->
+        <main class="content">
+            <div class="breadcrumbs">
+                <a href="/">Home</a> <span>></span> <a href="{% url 'payments:manage_refunds' %}">Refunds</a> <span>></span> <a href="#">Request Refund</a>
+            </div>
+
+            <h2>Request Refund</h2>
+
+            <div class="refund-form">
+                {% if messages %}
+                    <div class="messages">
+                        {% for message in messages %}
+                            <p class="{{ message.tags }}">{{ message }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                {% if payment %}
+                    <h3>Booking Details</h3>
+                    <p>Booking ID: {{ payment.booking.id }}</p>
+                    <p>Amount: ${{ payment.amount }}</p>
+                    <p>Status: {{ payment.status }}</p>
+
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="input-group">
+                            <label for="reason">Reason for Refund</label>
+                            {{ form.reason }}
+                        </div>
+                        <button type="submit" class="action-btn">Submit Refund Request</button>
+                    </form>
+                {% else %}
+                    <p>No payment found for this booking.</p>
+                {% endif %}
+
+                <a href="{% url 'authentication:customer_dashboard' %}" class="back-link">Back to Dashboard</a>
+            </div>
+        </main>
+        <form action="{% url 'authentication:logout' %}" method="post" class="inline-form">
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2025 SkyHigh Airlines Management System. All rights reserved. | Last Updated: {{ last_updated|default:"March 17, 2025" }}</p>
+    </footer>
+</body>
+</html>

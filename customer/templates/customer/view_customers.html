@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyHigh Airlines - Customer Management</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(45deg, #e6f2ff, #ffffff);
+            overflow-x: hidden;
+        }
+
+        .customer-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(100, 149, 237, 0.2);
+            padding: 40px;
+            width: 100%;
+            max-width: 1200px; /* Increased to match dashboard */
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin: 20px;
+        }
+
+        .customer-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(100, 149, 237, 0.1),
+                rgba(255, 255, 255, 0.05)
+            );
+            transform: rotate(30deg);
+            pointer-events: none;
+        }
+
+        h1 {
+            color: #4682B4;
+            font-size: 28px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        nav {
+            margin-bottom: 30px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        nav ul li {
+            margin: 0 10px 10px 10px;
+        }
+
+        nav ul li a {
+            color: #4682B4;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #6495ED;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #f0f8ff;
+            box-shadow: 0 0 20px rgba(100, 149, 237, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(100, 149, 237, 0.1);
+        }
+
+        th {
+            background: linear-gradient(45deg, #4682B4, #6495ED);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+
+        tr:nth-child(even) {
+            background-color: rgba(100, 149, 237, 0.05);
+        }
+
+        tr:hover {
+            background-color: rgba(100, 149, 237, 0.1);
+        }
+
+        .action-btn {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin: 0 5px;
+            color: white;
+        }
+
+        .edit-btn {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+        }
+
+        .edit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-btn {
+            background: linear-gradient(45deg, #4682B4, #6495ED);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            margin-top: 30px;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            background: linear-gradient(45deg, #6495ED, #4682B4);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(100, 149, 237, 0.3);
+        }
+
+        .airplane {
+            position: fixed;
+            top: 20px;
+            left: -100px;
+            width: 60px;
+            height: 60px;
+            background-color: #4682B4;
+            clip-path: polygon(0% 50%, 50% 0%, 100% 50%, 80% 50%, 50% 100%, 20% 50%);
+            animation: fly 30s linear infinite;
+        }
+
+        @keyframes fly {
+            0% { transform: translateX(-100px) translateY(0) rotate(45deg); }
+            100% { transform: translateX(calc(100vw + 100px)) translateY(-100px) rotate(45deg); }
+        }
+
+        .clouds {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            animation: float linear infinite;
+        }
+
+        .cloud:nth-child(1) { width: 100px; height: 40px; top: 10%; left: 10%; animation-duration: 20s; }
+        .cloud:nth-child(2) { width: 80px; height: 30px; top: 20%; right: 15%; animation-duration: 25s; }
+        .cloud:nth-child(3) { width: 120px; height: 50px; bottom: 15%; left: 20%; animation-duration: 30s; }
+
+        @keyframes float {
+            0% { transform: translateX(100vw); }
+            100% { transform: translateX(-100%); }
+        }
+
+        .no-customers {
+            text-align: center;
+            padding: 20px;
+            color: #4682B4;
+        }
+
+        @media (max-width: 768px) {
+            .customer-container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            table {
+                font-size: 14px;
+            }
+
+            th, td {
+                padding: 10px;
+            }
+
+            .action-btn {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+
+            .back-btn {
+                font-size: 14px;
+                padding: 8px 16px;
+            }
+
+            nav ul li {
+                margin: 0 5px 5px 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="clouds">
+        <div class="cloud"></div>
+        <div class="cloud"></div>
+        <div class="cloud"></div>
+    </div>
+    <div class="airplane"></div>
+    <div class="customer-container">
+        <h1>Customer Management</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Customer ID</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for customer in customers %}
+                <tr>
+                    <td>{{ customer.username }}</td>
+                    <td>{{ customer.email }}</td>
+                    <td>{{ customer.id }}</td>
+                    <td>
+                        <a href="{% url 'customer:edit_customer' customer.id %}" class="action-btn edit-btn">Edit</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="no-customers">No customers found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{% url 'authentication:admin_dashboard' %}" class="back-btn">Back to Dashboard</a>
+    </div>
+</body>
+</html>

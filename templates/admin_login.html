@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyHigh Airlines - Admin Login</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(45deg, #e6f2ff, #ffffff);
+            overflow: hidden;
+        }
+
+        .login-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(100, 149, 237, 0.2);
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(100, 149, 237, 0.1),
+                rgba(255, 255, 255, 0.05)
+            );
+            transform: rotate(30deg);
+            pointer-events: none;
+        }
+
+        h1 {
+            color: #4682B4;
+            margin-bottom: 30px;
+            font-size: 28px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 20px;
+            border: 2px solid #4682B4;
+            border-radius: 25px;
+            font-size: 16px;
+            color: #333;
+            background-color: white;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(100, 149, 237, 0.3);
+        }
+
+        .input-group label {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #4682B4;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .input-group input:focus + label,
+        .input-group input:not(:placeholder-shown) + label {
+            top: 0;
+            left: 15px;
+            font-size: 12px;
+            background-color: white;
+            padding: 0 5px;
+        }
+
+        .login-btn {
+            background: linear-gradient(45deg, #4682B4, #6495ED);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            width: 100%;
+        }
+
+        .login-btn:hover {
+            background: linear-gradient(45deg, #6495ED, #4682B4);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(100, 149, 237, 0.3);
+        }
+
+        .forgot-password {
+            margin-top: 15px;
+            color: #4682B4;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .forgot-password:hover {
+            color: #6495ED;
+        }
+
+        .back-to-main {
+            display: inline-block;
+            margin-top: 20px;
+            color: #4682B4;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .back-to-main:hover {
+            color: #6495ED;
+        }
+
+        footer {
+            margin-top: 30px;
+            color: #4682B4;
+            font-size: 14px;
+        }
+
+        .airplane {
+            position: absolute;
+            top: 20px;
+            left: -100px;
+            width: 60px;
+            height: 60px;
+            background-color: #4682B4;
+            clip-path: polygon(0% 50%, 50% 0%, 100% 50%, 80% 50%, 50% 100%, 20% 50%);
+            animation: fly 15s linear infinite;
+        }
+
+        @keyframes fly {
+            0% { transform: translateX(-100px) translateY(0) rotate(45deg); }
+            100% { transform: translateX(calc(100vw + 100px)) translateY(-100px) rotate(45deg); }
+        }
+
+        .clouds {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            animation: float linear infinite;
+        }
+
+        .cloud:nth-child(1) { width: 100px; height: 40px; top: 10%; left: 10%; animation-duration: 20s; }
+        .cloud:nth-child(2) { width: 80px; height: 30px; top: 20%; right: 15%; animation-duration: 25s; }
+        .cloud:nth-child(3) { width: 120px; height: 50px; bottom: 15%; left: 20%; animation-duration: 30s; }
+
+        @keyframes float {
+            0% { transform: translateX(100vw); }
+            100% { transform: translateX(-100%); }
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 30px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .input-group input,
+            .login-btn {
+                font-size: 14px;
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="clouds">
+        <div class="cloud"></div>
+        <div class="cloud"></div>
+        <div class="cloud"></div>
+    </div>
+    <div class="airplane"></div>
+    <div class="login-container">
+        <h1>Admin Login</h1>
+        <form class="login-form" action="{% url 'admin_dashboard' %}" method="post">
+            {% csrf_token %}
+            <div class="input-group">
+                <input type="text" id="username" name="username" required placeholder=" ">
+                <label for="username">Username</label>
+            </div>
+            <div class="input-group">
+                <input type="password" id="password" name="password" required placeholder=" ">
+                <label for="password">Password</label>
+            </div>
+            <button type="submit" class="login-btn">Login</button>
+        </form>
+        <a href="{% url 'forgot_password' %}" class="forgot-password">Forgot Password?</a>
+        <a href="{% url 'home' %}" class="back-to-main">Back to Main Page</a>
+        <footer>
+            <p>&copy; 2024 SkyHigh Airlines. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>
+

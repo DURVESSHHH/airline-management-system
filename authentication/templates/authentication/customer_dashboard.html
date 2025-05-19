@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyHigh Airlines - Customer Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            width: 100%;
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f6f5; /* Matches admin_dashboard.html */
+        }
+
+        /* Sticky Header */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: #007bff; /* Matches view_bookings.html */
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            height: 40px;
+            filter: brightness(0) invert(1); /* Matches view_bookings.html */
+        }
+
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            color: #fff;
+        }
+
+        /* Main Layout */
+        .container {
+            display: flex;
+            min-height: calc(100vh - 120px);
+            width: 100%;
+            margin-top: 70px;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 250px;
+            background: #fff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 20px;
+            position: fixed;
+            height: calc(100vh - 120px);
+            overflow-y: auto;
+            border-right: 2px solid #007bff; /* Updated color */
+        }
+
+        .sidebar h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            color: #007bff; /* Updated color */
+            margin-bottom: 15px;
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar ul li a {
+            text-decoration: none;
+            color: #007bff; /* Updated color */
+            font-weight: 500;
+            padding: 10px 15px;
+            display: block;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .sidebar ul li a:hover {
+            background: #0056b3; /* Updated hover color */
+            color: #fff;
+        }
+
+        .sidebar ul li a.active {
+            background: #007bff; /* Updated color */
+            color: #fff;
+        }
+
+        /* Main Content */
+        .content {
+            flex: 1;
+            background: #fff;
+            padding: 30px;
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            min-height: calc(100vh - 120px);
+            position: relative;
+        }
+
+        .content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            color: #007bff; /* Updated color */
+            margin-bottom: 20px;
+        }
+
+        /* Breadcrumbs */
+        .breadcrumbs {
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .breadcrumbs a {
+            color: #007bff; /* Updated color */
+            text-decoration: none;
+        }
+
+        .breadcrumbs a:hover {
+            color: #0056b3; /* Updated hover color */
+            text-decoration: underline;
+        }
+
+        .breadcrumbs span {
+            color: #666;
+            margin: 0 5px;
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .dashboard-item {
+            background: #f8f9fa; /* Matches view_bookings.html */
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); /* Matches admin_dashboard.html */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            width: 300px;
+            height: 300px;
+            overflow-y: auto;
+        }
+
+        .dashboard-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        .dashboard-item h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #007bff; /* Updated color */
+            margin-bottom: 15px;
+        }
+
+        .dashboard-item p {
+            color: #333;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .flight-list, .stat-list {
+            list-style: none;
+            text-align: left;
+        }
+
+        .flight-list li, .stat-list li {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        .status-good { background-color: #4CAF50; }
+        .status-warning { background-color: #FFA500; }
+        .status-critical { background-color: #f44336; }
+
+        .progress-bar {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            height: 10px;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #007bff; /* Updated color */
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+
+        .activity-filter select {
+            padding: 8px;
+            border: 1px solid #007bff; /* Updated color */
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            color: #007bff;
+        }
+
+        .action-btn {
+            background: #007bff; /* Matches view_bookings.html */
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-block;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .action-btn:hover {
+            background: #0056b3; /* Matches view_bookings.html */
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+        }
+
+        .back-btn {
+            background: #007bff; /* Matches view_bookings.html */
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            display: block;
+            transition: background 0.3s ease, transform 0.2s ease;
+            margin: 20px auto; /* Centered horizontally */
+            text-align: center;
+        }
+
+        .back-btn:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+        }
+
+        /* Logout Button */
+        .logout-btn {
+            background: #dc3545; /* Matches view_bookings.html */
+            color: #fff;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background 0.3s ease, transform 0.2s ease;
+            display: block;
+            margin: 30px auto 60px;
+            cursor: pointer;
+            position: relative;
+            z-index: 10;
+        }
+
+        .logout-btn:hover {
+            background: #a32a1f; /* Matches view_bookings.html */
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(45deg, #333, #555); /* Matches view_bookings.html */
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .footer p {
+            font-size: 14px;
+            margin: 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 200px;
+            }
+
+            .content {
+                margin-left: 200px;
+                width: calc(100% - 200px);
+            }
+
+            .dashboard-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+
+            .dashboard-item {
+                width: 100%;
+                height: auto;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .back-btn {
+                padding: 8px 16px;
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+            }
+
+            .content {
+                margin-left: 0;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sticky Header -->
+    <div class="header">
+        <div class="logo-container">
+            <img src="assets/logo.png" alt="SkyHigh Airlines Logo" class="logo">
+            <h1>Customer Dashboard</h1>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <h3>Customer Menu</h3>
+            <ul>
+                <li><a href="{% url 'booking:search_flights' %}" class="active">My Bookings</a></li>
+                <li><a href="{% url 'customer:view_loyalty_points' %}">Loyalty Program</a></li>
+                <li><a href="{% url 'customer:customer_profile' %}">Customer Profile</a></li>
+                <li><a href="{% url 'customer:submit_ticket' %}">Submit a Support Ticket</a></li>
+                <li><a href="{% url 'customer:view_tickets' %}">View My Tickets</a></li>
+                <li><a href="{% url 'booking:view_bookings' %}">View booking</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+            <div class="breadcrumbs">
+                <a href="/">Home</a> <span>></span> <a href="#">Customer Dashboard</a>
+            </div>
+
+            <h2>Welcome, {{ request.user.get_full_name|default:request.user.username }}!</h2>
+
+            <!-- Dashboard Grid -->
+            <div class="dashboard-grid">
+                <div class="dashboard-item">
+                    <h3>Upcoming Flights</h3>
+                    <ul class="flight-list">
+                        {% if upcoming_flights %}
+                            {% for flight in upcoming_flights %}
+                                <li>
+                                    <strong>Flight {{ flight.flight_number|default:"N/A" }}</strong><br>
+                                    {{ flight.source|default:"Unknown" }} to {{ flight.destination|default:"Unknown" }}<br>
+                                    Departure: {{ flight.departure_time|date:"M d, Y, h:i A"|default:"Not Set" }}<br>
+                                    <a href="{% url 'booking:book_flight' flight.id|default:0 %}" class="action-btn">Manage Booking</a>
+                                </li>
+                            {% endfor %}
+                        {% else %}
+                            <p>No upcoming flights available.</p>
+                        {% endif %}
+                    </ul>
+                    <span class="status-indicator status-good"></span>
+                </div>
+                <div class="dashboard-item">
+                    <h3>Loyalty Program Status</h3>
+                    <p><strong>{{ customer.loyalty_status|default:"N/A" }}</strong></p>
+                    <p>Points: {{ customer.points_balance|default:0 }} / {{ customer.next_tier_points|default:"5000" }}</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="loyaltyProgress"></div>
+                    </div>
+                    <p>Miles Flown: {{ customer.miles_flown|default:0 }}</p>
+                    <a href="{% url 'customer:view_loyalty_points' %}" class="action-btn">View Benefits</a>
+                    <span class="status-indicator status-good"></span>
+                </div>
+            
+                <div class="dashboard-item">
+                    <h3>Travel Preferences</h3>
+                    <p>Seat: {{ customer.preferences.seat|default:"Not Set" }}</p>
+                    <p>Meal: {{ customer.preferences.meal|default:"Not Set" }}</p>
+                    <p>Language: {{ customer.preferences.language|default:"Not Set" }}</p>
+                    <a href="{% url 'customer:customer_profile' %}" class="action-btn">Update Preferences</a>
+                    <span class="status-indicator status-good"></span>
+                </div>
+                <div class="dashboard-item">
+                    <h3>Recent Activity</h3>
+                    <div class="activity-filter">
+                        <label for="activityFilter">Filter Activities:</label>
+                        <select id="activityFilter" onchange="filterActivities(this.value)">
+                            <option value="all">All Activities</option>
+                            <option value="bookings">Bookings</option>
+                            <option value="support">Support</option>
+                        </select>
+                    </div>
+                    <div id="activityList">
+                        {% if recent_activities %}
+                            {% for activity in recent_activities %}
+                                <p data-type="{{ activity.type|default:'all' }}">{{ activity }}</p>
+                            {% endfor %}
+                        {% else %}
+                            <p>No recent activity found.</p>
+                        {% endif %}
+                    </div>
+                    <a href="#" class="action-btn">View All Activity</a>
+                    <span class="status-indicator status-good"></span>
+                </div>
+                <div class="dashboard-item">
+                    <h3>Book a Flight</h3>
+                    <p>Explore destinations and reserve your next journey with ease.</p>
+                    <i class="fas fa-plane-departure" style="font-size: 24px; color: #007bff; margin: 10px 0;"></i><br>
+                    <a href="{% url 'booking:search_flights' %}" class="action-btn">Go to Booking</a>
+                    <span class="status-indicator status-good"></span>
+                </div>
+                <div class="dashboard-item">
+                    <h3>Customer Support</h3>
+                    <p>Get help with bookings, refunds, or any inquiries.</p>
+                    <i class="fas fa-headset" style="font-size: 24px; color: #007bff; margin: 10px 0;"></i><br>
+                    <a href="{% url 'customer:submit_ticket' %}" class="action-btn">Submit Ticket</a>
+                    <span class="status-indicator status-good"></span>
+                </div>
+                <div class="dashboard-item">
+                    <h3>View Profile</h3>
+                    <p>Manage your account details and preferences.</p>
+                    <i class="fas fa-user-circle" style="font-size: 24px; color: #007bff; margin: 10px 0;"></i><br>
+                    <a href="{% url 'customer:customer_profile' %}" class="action-btn">Go to Profile</a>
+                    <span class="status-indicator status-good"></span>
+                </div>
+                <div class="dashboard-item">
+                    <h3>Travel History</h3>
+                    <p>Review your past flights and trip details.</p>
+                    <i class="fas fa-history" style="font-size: 24px; color: #007bff; margin: 10px 0;"></i><br>
+                    <a href="{% url 'customer:travel_history' %}" class="action-btn">View History</a>
+                    <span class="status-indicator status-good"></span>
+                </div>
+            </div>
+
+            <!-- Logout Button -->
+            <form action="{% url 'authentication:logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="logout-btn">Logout</button>
+            </form>
+
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2025 SkyHigh Airlines Management System. All rights reserved. | Last Updated: {{ last_updated|default:"March 17, 2025" }}</p>
+    </footer>
+
+    <script>
+        function filterActivities(filter) {
+            const activities = document.querySelectorAll('#activityList p');
+            activities.forEach(activity => {
+                const type = activity.getAttribute('data-type');
+                if (filter === 'all' || type === filter) {
+                    activity.style.display = 'block';
+                } else {
+                    activity.style.display = 'none';
+                }
+            });
+        }
+
+        // Set progress bar width dynamically
+        document.addEventListener('DOMContentLoaded', () => {
+            const progressFill = document.getElementById('loyaltyProgress');
+            const progressPercentage = parseFloat("{{ loyalty_progress_percentage|floatformat:2|default:0 }}");
+            progressFill.style.width = `${progressPercentage}%`;
+        });
+    </script>
+</body>
+</html>

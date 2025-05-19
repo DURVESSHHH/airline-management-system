@@ -1,0 +1,148 @@
+{% extends 'base1.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyHigh Airlines - Payment Confirmation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f6f5; /* Matches admin dashboard background */
+        }
+
+        .payment-container {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); /* Matches dashboard-item shadow */
+            padding: 40px;
+            max-width: 450px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .payment-container:hover {
+            transform: translateY(-5px); /* Matches dashboard-item hover effect */
+        }
+
+        .payment-container h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px; /* Matches content h2 in dashboard */
+            color: #007bff; /* Primary color from dashboard */
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .payment-details {
+            background: #f8f9fa; /* Matches blog-post background */
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 20px;
+            text-align: left;
+            display: flex; /* Added for button centering */
+            flex-direction: column; /* Stack items vertically */
+            align-items: center; /* Center items horizontally */
+        }
+
+        .payment-details p {
+            font-size: 16px;
+            color: #333; /* Matches dashboard text */
+            margin-bottom: 15px;
+            width: 100%; /* Ensure text spans full width */
+            text-align: left; /* Keep text left-aligned */
+        }
+
+        .payment-details p strong {
+            color: #007bff; /* Matches dashboard headings */
+            font-weight: 600;
+        }
+
+        .action-btn {
+            background: #007bff; /* Matches dashboard action-btn */
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-block;
+            transition: background 0.3s ease, transform 0.2s ease;
+            margin-top: 10px;
+        }
+
+        .action-btn:hover {
+            background: #0056b3; /* Matches dashboard action-btn hover */
+            transform: translateY(-2px);
+        }
+
+        .back-btn {
+            background: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-block;
+            transition: background 0.3s ease, transform 0.2s ease;
+            margin-top: 20px;
+        }
+
+        .back-btn:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        /* Center back button */
+        .payment-container > .back-btn {
+            display: block; /* Ensure block-level for centering */
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            .payment-container {
+                padding: 20px;
+                max-width: 90%;
+            }
+
+            .payment-container h1 {
+                font-size: 28px;
+            }
+
+            .payment-details p {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="payment-container">
+        <h1>Payment Successful!</h1>
+        <div class="payment-details">
+            <p><strong>Booking Status:</strong> {{ booking.payment_status }}</p>
+            <a href="{% url 'booking:view_bookings' %}" class="action-btn">View Booking Details</a>
+        </div>
+    </div>
+</body>
+</html>
+{% endblock %}

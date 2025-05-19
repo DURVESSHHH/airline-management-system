@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyHigh Airlines - Book Flight {{ flight.flight_number }}</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(45deg, #e6f2ff, #ffffff);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(100, 149, 237, 0.3);
+            max-width: 600px;
+            width: 100%;
+            text-align: left;
+            position: relative;
+        }
+
+        h2 {
+            color: #4682B4;
+            margin-bottom: 20px;
+            font-size: 26px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .flight-info {
+            background-color: #f0f8ff;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .flight-info p {
+            margin: 8px 0;
+            color: #333;
+        }
+
+        .flight-info strong {
+            color: #4682B4;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            color: #4682B4;
+            font-weight: 600;
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            background-color: #f0f8ff;
+            font-size: 14px;
+        }
+
+        button {
+            background: linear-gradient(45deg, #4682B4, #6495ED);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: 600;
+        }
+
+        button:hover {
+            background: linear-gradient(45deg, #6495ED, #4682B4);
+            box-shadow: 0 4px 10px rgba(100, 149, 237, 0.3);
+        }
+
+        .back-btn {
+            display: block;
+            margin-top: 15px;
+            text-align: center;
+            text-decoration: none;
+            color: #4682B4;
+            font-weight: 600;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Book Flight - {{ flight.flight_number }}</h2>
+    
+        <div class="flight-info">
+            <p><strong>From:</strong> {{ flight.source }}</p>
+            <p><strong>To:</strong> {{ flight.destination }}</p>
+            <p><strong>Departure:</strong> {{ flight.departure_time }}</p>
+            <p><strong>Arrival:</strong> {{ flight.arrival_time }}</p>
+            <p><strong>Price:</strong> ${{ flight.price }}</p>
+            <p><strong>Available Seats:</strong> {{ flight.available_seats }}</p>
+        </div>
+    
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}  <!-- ✅ Displays the form properly -->
+            <button type="submit">Confirm Booking</button>
+        </form>
+    
+        <a href="{% url 'booking:search_flights' %}" class="back-btn">Back to Search</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyHigh Airlines - Loyalty Program</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(45deg, #e6f2ff, #ffffff);
+            overflow-x: hidden;
+        }
+
+        .loyalty-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(100, 149, 237, 0.2);
+            padding: 40px;
+            width: 100%;
+            max-width: 1200px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin: 20px;
+        }
+
+        .loyalty-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(100, 149, 237, 0.1),
+                rgba(255, 255, 255, 0.05)
+            );
+            transform: rotate(30deg);
+            pointer-events: none;
+        }
+
+        h1, h2 {
+            color: #4682B4;
+            margin-bottom: 20px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        h1 {
+            font-size: 28px;
+        }
+
+        h2 {
+            font-size: 20px;
+        }
+
+        .loyalty-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .loyalty-item {
+            background-color: #f0f8ff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(100, 149, 237, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .loyalty-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 8px rgba(100, 149, 237, 0.2);
+        }
+
+        .loyalty-item h3 {
+            color: #4682B4;
+            margin-bottom: 10px;
+        }
+
+        .loyalty-item p {
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .status-bar {
+            background-color: #e0e0e0;
+            height: 20px;
+            border-radius: 10px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .status-progress {
+            height: 100%;
+            background: linear-gradient(45deg, #4682B4, #6495ED);
+            width: 75%; /* Adjust based on actual progress */
+        }
+
+        .action-btn {
+            background: linear-gradient(45deg, #4682B4, #6495ED);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .action-btn:hover {
+            background: linear-gradient(45deg, #6495ED, #4682B4);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(100, 149, 237, 0.3);
+        }
+
+        .tier-benefits {
+            text-align: left;
+            padding-left: 20px;
+        }
+
+        .tier-benefits li {
+            margin-bottom: 5px;
+        }
+
+        footer {
+            margin-top: 40px;
+            color: #4682B4;
+            font-size: 14px;
+        }
+
+        .airplane {
+            position: fixed;
+            top: 20px;
+            left: -100px;
+            width: 60px;
+            height: 60px;
+            background-color: #4682B4;
+            clip-path: polygon(0% 50%, 50% 0%, 100% 50%, 80% 50%, 50% 100%, 20% 50%);
+            animation: fly 30s linear infinite;
+        }
+
+        @keyframes fly {
+            0% { transform: translateX(-100px) translateY(0) rotate(45deg); }
+            100% { transform: translateX(calc(100vw + 100px)) translateY(-100px) rotate(45deg); }
+        }
+
+        .clouds {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            animation: float linear infinite;
+        }
+
+        .cloud:nth-child(1) { width: 100px; height: 40px; top: 10%; left: 10%; animation-duration: 20s; }
+        .cloud:nth-child(2) { width: 80px; height: 30px; top: 20%; right: 15%; animation-duration: 25s; }
+        .cloud:nth-child(3) { width: 120px; height: 50px; bottom: 15%; left: 20%; animation-duration: 30s; }
+
+        @keyframes float {
+            0% { transform: translateX(100vw); }
+            100% { transform: translateX(-100%); }
+        }
+
+        @media (max-width: 768px) {
+            .loyalty-container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            h2 {
+                font-size: 18px;
+            }
+
+            .loyalty-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="clouds">
+        <div class="cloud"></div>
+        <div class="cloud"></div>
+        <div class="cloud"></div>
+    </div>
+    <div class="airplane"></div>
+    <div class="loyalty-container">
+        <h1>SkyHigh Airlines Loyalty Program</h1>
+        <h2>Welcome, Gold Member John Doe</h2>
+        <div class="loyalty-grid">
+            <div class="loyalty-item">
+                <h3>Your Status</h3>
+                <p><strong>Current Tier:</strong> Gold</p>
+                <p><strong>Points Balance:</strong> 75,000</p>
+                <p><strong>Next Tier:</strong> Platinum (100,000 points)</p>
+                <div class="status-bar">
+                    <div class="status-progress"></div>
+                </div>
+                <p>25,000 points to next tier</p>
+                <button class="action-btn">View Point History</button>
+            </div>
+            <div class="loyalty-item">
+                <h3>Gold Tier Benefits</h3>
+                <ul class="tier-benefits">
+                    <li>Priority Check-in</li>
+                    <li>Extra Baggage Allowance</li>
+                    <li>Lounge Access</li>
+                    <li>Priority Boarding</li>
+                    <li>25% Bonus Points on Flights</li>
+                </ul>
+                <button class="action-btn">Explore All Benefits</button>
+            </div>
+            <div class="loyalty-item">
+                <h3>Earn Points</h3>
+                <p>Earn points on flights, hotels, car rentals, and more!</p>
+                <button class="action-btn">View Earning Opportunities</button>
+            </div>
+            <div class="loyalty-item">
+                <h3>Redeem Points</h3>
+                <p>Use your points for flights, upgrades, and exclusive experiences.</p>
+                <button class="action-btn">Redeem Now</button>
+            </div>
+        </div>
+        <footer>
+            <p>&copy; 2024 SkyHigh Airlines. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>
+

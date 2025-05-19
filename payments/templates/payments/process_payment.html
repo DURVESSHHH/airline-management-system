@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Processing</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+
+    <h2>Complete Your Payment</h2>
+    <p>Booking ID: {{ booking.id }}</p>
+    <p>Amount: ₹{{ amount }}</p>
+
+    <button id="pay-btn" type="button">Pay Now</button>
+
+    <script>
+        var options = {
+            "key": "{{ razorpay_key }}",
+            "amount": "{{ amount }}" * 100,  // Convert to paise (multiply by 100) in JavaScript
+            "currency": "INR",
+            "name": "YSkyHigh Airline",
+            "description": "Flight Booking Payment",
+            "order_id": "{{ order_id }}",
+            "handler": function (response) {
+                fetch("/payments/verify/{{ booking.id }}/", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRFToken": "{{ csrf_token }}"
+                    },
+                    body: JSON.stringify({
+                        "razorpay_order_id": response.razorpay_order_id,
+                        "razorpay_payment_id": response.razorpay_payment_id,
+                        "razorpay_signature": response.razorpay_signature
+                    })
+                }).then(res => res.json())
+                .then(data => {
+                    if (data.status === "success") {
+                        window.location.href = "/payments/success/{{ booking.id }}/";
+                    } else {
+                        window.location.href = "/payments/failure/{{ booking.id }}/";
+                    }
+                }).catch(error => {
+                    console.error("Error:", error);
+                });
+            },
+            "theme": { "color": "#3399cc" }
+        };
+    
+        var rzp1 = new Razorpay(options);
+        document.getElementById('pay-btn').onclick = function(e){
+            rzp1.open();
+            e.preventDefault();
+        };
+    </script>
+
+</body>
+</html>

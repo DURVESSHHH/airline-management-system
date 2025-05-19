@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyHigh Airlines - Customer Profile</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(45deg, #e6f2ff, #ffffff);
+            overflow-x: hidden;
+        }
+
+        .profile-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(100, 149, 237, 0.2);
+            padding: 40px;
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            margin: 20px;
+        }
+
+        .profile-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(100, 149, 237, 0.1),
+                rgba(255, 255, 255, 0.05)
+            );
+            transform: rotate(30deg);
+            pointer-events: none;
+        }
+
+        h1, h2 {
+            color: #4682B4;
+            margin-bottom: 30px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        h1 {
+            font-size: 28px;
+        }
+
+        h2 {
+            font-size: 24px;
+        }
+
+        .profile-info {
+            text-align: left;
+            margin-bottom: 30px;
+        }
+
+        .profile-info p {
+            margin: 10px 0;
+            color: #333;
+            font-size: 16px;
+        }
+
+        form {
+            text-align: left;
+        }
+
+        form p {
+            margin-bottom: 15px;
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 5px;
+            color: #4682B4;
+            font-weight: 600;
+        }
+
+        form input[type="text"],
+        form input[type="email"],
+        form input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #4682B4;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        form button {
+            background: linear-gradient(45deg, #4682B4, #6495ED);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            margin-top: 20px;
+        }
+
+        form button:hover {
+            background: linear-gradient(45deg, #6495ED, #4682B4);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(100, 149, 237, 0.3);
+        }
+
+        .back-btn {
+            background: transparent;
+            color: #4682B4;
+            border: 2px solid #4682B4;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            margin-top: 30px;
+        }
+
+        .back-btn:hover {
+            background: rgba(70, 130, 180, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .airplane {
+            position: fixed;
+            top: 20px;
+            left: -100px;
+            width: 60px;
+            height: 60px;
+            background-color: #4682B4;
+            clip-path: polygon(0% 50%, 50% 0%, 100% 50%, 80% 50%, 50% 100%, 20% 50%);
+            animation: fly 30s linear infinite;
+        }
+
+        @keyframes fly {
+            0% { transform: translateX(-100px) translateY(0) rotate(45deg); }
+            100% { transform: translateX(calc(100vw + 100px)) translateY(-100px) rotate(45deg); }
+        }
+
+        .clouds {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            animation: float linear infinite;
+        }
+
+        .cloud:nth-child(1) { width: 100px; height: 40px; top: 10%; left: 10%; animation-duration: 20s; }
+        .cloud:nth-child(2) { width: 80px; height: 30px; top: 20%; right: 15%; animation-duration: 25s; }
+        .cloud:nth-child(3) { width: 120px; height: 50px; bottom: 15%; left: 20%; animation-duration: 30s; }
+
+        @keyframes float {
+            0% { transform: translateX(100vw); }
+            100% { transform: translateX(-100%); }
+        }
+
+        @media (max-width: 768px) {
+            .profile-container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            .profile-info p, form input[type="text"], form input[type="email"], form input[type="password"] {
+                font-size: 14px;
+            }
+
+            form button, .back-btn {
+                font-size: 12px;
+                padding: 8px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="clouds">
+        <div class="cloud"></div>
+        <div class="cloud"></div>
+        <div class="cloud"></div>
+    </div>
+    <div class="airplane"></div>
+    <div class="profile-container">
+        <h1>SkyHigh Airlines</h1>
+        <h2>Customer Profile</h2>
+        <div class="profile-info">
+            <p><strong>Username:</strong> {{ user.username }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>Phone Number:</strong> {{ user.phone_number }}</p>
+            <p><strong>Loyalty Points:</strong> {{ profile.loyalty_points }}</p>
+        </div>
+        <form method="POST">
+            {% csrf_token %}
+            <label for="id_first_name">First Name:</label>
+            <input type="text" name="first_name" id="id_first_name" value="{{ request.user.first_name }}" required>
+        
+            <label for="id_last_name">Last Name:</label>
+            <input type="text" name="last_name" id="id_last_name" value="{{ request.user.last_name }}" required>
+        
+            <label for="id_email">Email:</label>
+            <input type="email" name="email" id="id_email" value="{{ request.user.email }}" required>
+        
+            <label for="id_phone_number">Phone Number:</label>
+            <input type="text" name="phone_number" id="id_phone_number" value="{{ request.user.phone_number }}">
+        
+            <button type="submit">Update Profile</button>
+        </form>
+        <button class="back-btn" onclick="history.back()">Back to Dashboard</button>
+    </div>
+</body>
+</html>
+

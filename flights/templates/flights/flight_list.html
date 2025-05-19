@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyHigh Airlines - Flight List</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            width: 100%;
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f6f5;
+            overflow-x: hidden;
+        }
+
+        /* Sticky Header */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            height: 40px;
+        }
+
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            color: #007bff;
+        }
+
+        /* Main Content */
+        .content {
+            min-height: calc(100vh - 120px);
+            width: 100%;
+            margin-top: 70px;
+            padding: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .flight-list-container {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 1000px;
+            text-align: center;
+            position: relative;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            color: #007bff;
+            margin-bottom: 30px;
+        }
+
+        .add-flight-btn {
+            display: inline-block;
+            background: #007bff;
+            color: #fff;
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .add-flight-btn:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background: #007bff;
+            color: #fff;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+
+        tr:hover {
+            background-color: #e9ecef;
+        }
+
+        .action-links a {
+            color: #007bff;
+            text-decoration: none;
+            margin-right: 15px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .action-links a:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+
+        .action-links a.delete {
+            color: #c0392b;
+        }
+
+        .action-links a.delete:hover {
+            color: #a32a1f;
+        }
+
+        .no-data {
+            padding: 20px;
+            color: #666;
+            font-size: 16px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 20px;
+            background: #666;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .back-btn:hover {
+            background: #444;
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        .footer {
+            background: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer p {
+            font-size: 14px;
+            margin: 0;
+            flex: 1;
+            text-align: left;
+        }
+
+        .logout-btn {
+            background: #c0392b;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .logout-btn:hover {
+            background: #a32a1f;
+            transform: translateY(-2px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .content {
+                padding: 20px;
+            }
+
+            .flight-list-container {
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 28px;
+            }
+
+            .add-flight-btn {
+                font-size: 14px;
+                padding: 10px 20px;
+            }
+
+            th, td {
+                padding: 8px 10px;
+                font-size: 14px;
+            }
+
+            .action-links a {
+                margin-right: 10px;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .footer {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h2 {
+                font-size: 24px;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            th, td {
+                padding: 6px 8px;
+            }
+
+            .add-flight-btn {
+                font-size: 12px;
+                padding: 8px 16px;
+            }
+
+            .back-btn {
+                font-size: 12px;
+                padding: 8px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sticky Header -->
+    <div class="header">
+        <div class="logo-container">
+            <img src="assets/logo.png" alt="SkyHigh Airlines Logo" class="logo">
+            <h1>Admin Dashboard</h1>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="content">
+        <div class="flight-list-container">
+            <h2>Flight List</h2>
+            <a href="{% url 'flights:add_flight' %}" class="add-flight-btn">Add New Flight</a>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Flight Number</th>
+                        <th>Source</th>
+                        <th>Destination</th>
+                        <th>Departure</th>
+                        <th>Arrival</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for flight in flights %}
+                    <tr>
+                        <td>{{ flight.flight_number }}</td>
+                        <td>{{ flight.source }}</td>
+                        <td>{{ flight.destination }}</td>
+                        <td>{{ flight.departure_time }}</td>
+                        <td>{{ flight.arrival_time }}</td>
+                        <td>{{ flight.status }}</td>
+                        <td class="action-links">
+                            <a href="{% url 'flights:edit_flight' flight.id %}">Edit</a>
+                            <a href="{% url 'flights:delete_flight' flight.id %}" class="delete">Delete</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="no-data">No flights available.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a href="{% url 'authentication:admin_dashboard' %}" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2025 SkyHigh Airlines Management System. All rights reserved. | Last Updated: {{ last_updated|default:"March 17, 2025" }}</p>
+        <form action="{% url 'authentication:logout' %}" method="post" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="logout-btn">Logout</button>
+        </form>
+    </footer>
+</body>
+</html>

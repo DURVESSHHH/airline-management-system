@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyHigh Airlines - Fleet Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            width: 100%;
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f6f5;
+        }
+
+        /* Sticky Header */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            height: 40px;
+        }
+
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            color: #007bff;
+        }
+
+        /* Main Content */
+        .content {
+            min-height: calc(100vh - 120px);
+            width: 100%;
+            margin-top: 70px;
+            padding: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .container {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            padding: 30px;
+            width: 100%;
+            max-width: 800px; /* Increased width for table */
+            text-align: center;
+        }
+
+        h2, h3 {
+            font-family: 'Playfair Display', serif;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 36px;
+        }
+
+        h3 {
+            font-size: 24px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        form p {
+            width: 100%;
+            margin-bottom: 0;
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            text-align: left;
+        }
+
+        form input, form select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+            color: #333;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        form input:focus, form select:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        .action-btn {
+            background: #007bff;
+            color: #fff;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            width: 100%;
+            max-width: 200px;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .action-btn:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            background: #fff;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background: #007bff;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        td a {
+            color: #c0392b;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        td a:hover {
+            text-decoration: underline;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 20px;
+            background: #666;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .back-btn:hover {
+            background: #444;
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        .footer {
+            background: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer p {
+            font-size: 14px;
+            margin: 0;
+            flex: 1;
+            text-align: left;
+        }
+
+        .logout-btn {
+            background: #c0392b;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .logout-btn:hover {
+            background: #a32a1f;
+            transform: translateY(-2px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .content {
+                padding: 20px;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 28px;
+            }
+
+            h3 {
+                font-size: 20px;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .footer {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h2 {
+                font-size: 24px;
+            }
+
+            h3 {
+                font-size: 18px;
+            }
+
+            form input, form select {
+                font-size: 14px;
+                padding: 10px;
+            }
+
+            .action-btn {
+                font-size: 14px;
+                padding: 10px 20px;
+            }
+
+            th, td {
+                font-size: 14px;
+                padding: 8px;
+            }
+
+            .back-btn {
+                font-size: 12px;
+                padding: 8px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sticky Header -->
+    <div class="header">
+        <div class="logo-container">
+            <img src="assets/logo.png" alt="SkyHigh Airlines Logo" class="logo">
+            <h1>Admin Dashboard</h1>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="content">
+        <div class="container">
+            <h2>Flight Management</h2>
+
+            <form method="post" action="{% url 'authentication:add_aircraft' %}">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="action-btn">Add Aircraft</button>
+            </form>
+
+            <h3>Current Fleet</h3>
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Model</th>
+                    <th>Capacity</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+                {% for aircraft in aircrafts %}
+                <tr>
+                    <td>{{ aircraft.aircraft_name }}</td>
+                    <td>{{ aircraft.model }}</td>
+                    <td>{{ aircraft.capacity }}</td>
+                    <td>{{ aircraft.status }}</td>
+                    <td>
+                        <a href="{% url 'authentication:delete_aircraft' aircraft.id %}" onclick="return confirm('Are you sure?');">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+
+            <a href="{% url 'authentication:admin_dashboard' %}" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+        </div>
+    </main>
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2025 SkyHigh Airlines Management System. All rights reserved. | Last Updated: {{ last_updated|default:"March 17, 2025" }}</p>
+        <form action="{% url 'authentication:logout' %}" method="post" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="logout-btn">Logout</button>
+        </form>
+    </footer>
+</body>
+</html>

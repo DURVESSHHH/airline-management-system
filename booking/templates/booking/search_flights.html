@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Airline Management System - Search Flights</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(45deg, #e6f2ff, #ffffff);
+        }
+
+        .search-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(100, 149, 237, 0.2);
+            padding: 40px;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .search-container h2 {
+            color: #4682B4;
+            margin-bottom: 20px;
+            font-size: 28px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 25px;
+            background-color: #f0f8ff;
+            font-size: 16px;
+        }
+
+        .search-btn {
+            background: linear-gradient(45deg, #4682B4, #6495ED);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .search-btn:hover {
+            background: linear-gradient(45deg, #6495ED, #4682B4);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(100, 149, 237, 0.3);
+        }
+
+        .back-btn {
+            background: #4682B4;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 10px;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .back-btn:hover {
+            background: #6495ED;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(100, 149, 237, 0.3);
+        }
+
+        /* Flight Results */
+        .results-container {
+            margin-top: 30px;
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(100, 149, 237, 0.2);
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background: #4682B4;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f0f8ff;
+        }
+
+        .no-results {
+            margin-top: 15px;
+            font-size: 18px;
+            color: #555;
+        }
+
+        @media (max-width: 480px) {
+            .search-container {
+                padding: 30px;
+            }
+
+            .search-container h2 {
+                font-size: 24px;
+            }
+
+            .search-btn {
+                font-size: 14px;
+                padding: 10px 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="search-container">
+        <h2>Search Flights</h2>
+        <form method="POST" autocomplete="off">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="search-btn">Search</button>
+        </form>
+        <a href="{% url 'authentication:customer_dashboard' %}" class="back-btn">Back to Dashboard</a>
+    </div>
+
+    <!-- Flight Results -->
+    {% if flights is not None %}
+        <div class="results-container">
+            <h2>Available Flights</h2>
+            {% if flights %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Flight</th>
+                            <th>Departure</th>
+                            <th>Arrival</th>
+                            <th>Price</th>
+                            <th>Seats</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for flight in flights %}
+                        <tr>
+                            <td>{{ flight.flight_number }}</td>
+                            <td>{{ flight.departure_time }}</td>
+                            <td>{{ flight.arrival_time }}</td>
+                            <td>${{ flight.price }}</td>
+                            <td>{{ flight.available_seats }}</td>
+                            <td><a href="{% url 'book_flight' flight.id %}">Book</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p class="no-results">No flights found for the selected criteria.</p>
+            {% endif %}
+        </div>
+    {% endif %}
+
+</body>
+</html>

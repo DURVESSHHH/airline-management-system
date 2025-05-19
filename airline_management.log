@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio</title>
+  <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.development.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.22.9/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@400;600;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Glitch&display=swap');
+    body { font-family: 'Inter', sans-serif; }
+    h1, h2 { font-family: 'Orbitron', sans-serif; }
+    h3 { font-family: 'Glitch', sans-serif; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel" data-type="module">
+    // Theme Context for Glitchy Chaos and Neon Multiverse Mode
+    const ThemeContext = React.createContext({ theme: 'glitchyChaos', toggleTheme: () => {} });
+
+    // FloatingNav Component (Inspired by Uiverse.io Radio)
+    const FloatingNav = () => {
+      const { theme, toggleTheme } = React.useContext(ThemeContext);
+      return (
+        <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-20">
+          <div className={`input flex flex-row space-x-2 p-4 rounded-lg ${theme === 'glitchyChaos' ? 'bg-black/80 border-2 border-red-600' : 'bg-black/80 border-2 border-pink-500'}`}>
+            <button className="value text-white hover:text-pink-400 transition">
+              <svg data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" className="w-5 h-5">
+                <path d="m1.5 13v1a.5.5 0 0 0 .3379.4731 18.9718 18.9718 0 0 0 6.1621 1.0269 18.9629 18.9629 0 0 0 6.1621-1.0269.5.5 0 0 0 .3379-.4731v-1a6.5083 6.5083 0 0 0 -4.461-6.1676 3.5 3.5 0 1 0 -4.078 0 6.5083 6.5083 0 0 0 -4.461 6.1676zm4-9a2.5 2.5 0 1 1 2.5 2.5 2.5026 2.5026 0 0 1 -2.5-2.5zm2.5 3.5a5.5066 5.5066 0 0 1 5.5 5.5v.6392a18.08 18.08 0 0 1 -11 0v-.6392a5.5066 5.5066 0 0 1 5.5-5.5z" fill="#7D8590" />
+              </svg>
+              <a href="#hero">Home</a>
+            </button>
+            <button className="value text-white hover:text-pink-400 transition">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" id="Line" className="w-5 h-5">
+                <path d="m17.074 30h-2.148c-1.038 0-1.914-.811-1.994-1.846l-.125-1.635c-.687-.208-1.351-.484-1.985-.824l-1.246 1.067c-.788.677-1.98.631-2.715-.104l-1.52-1.52c-.734-.734-.78-1.927-.104-2.715l1.067-1.246c-.34-.635-.616-1.299-.824-1.985l-1.634-.125c-1.035-.079-1.846-.955-1.846-1.993v-2.148c0-1.038.811-1.914 1.846-1.994l1.635-.125c.208-.687.484-1.351.824-1.985l-1.068-1.247c-.676-.788-.631-1.98.104-2.715l1.52-1.52c.734-.734 1.927-.779 2.715-.104l1.246 1.067c.635-.34 1.299-.616 1.985-.824l.125-1.634c.08-1.034.956-1.845 1.994-1.845h2.148c1.038 0 1.914.811 1.994 1.846l.125 1.635c.687.208 1.351.484 1.985.824l1.246-1.067c.787-.676 1.98-.631 2.715.104l1.52 1.52c.734.734.78 1.927.104 2.715l-1.067 1.246c.34.635.616 1.299.824 1.985l1.634.125c1.035.079 1.846.955 1.846 1.993v2.148c0 1.038-.811 1.914-1.846 1.994l-1.635.125c-.208.687-.484 1.351-.824 1.985l1.067 1.246c.677.788.631 1.98-.104 2.715l-1.52 1.52c-.734.734-1.928.78-2.715.104l-1.246-1.067c-.635.34-1.299.616-1.985.824l-.125 1.634c-.079 1.035-.955 1.846-1.993 1.846zm-5.835-6.373c.848.53 1.768.912 2.734 1.135.426.099.739.462.772.898l.18 2.341 2.149-.001.18-2.34c.033-.437.347-.8.772-.898.967-.223 1.887-.604 2.734-1.135.371-.232.849-.197 1.181.089l1.784 1.529 1.52-1.52-1.529-1.784c-.285-.332-.321-.811-.089-1.181.53-.848.912-1.768 1.135-2.734.099-.426.462-.739.898-.772l2.341-.18h-.001v-2.148l-2.34-.180c-.437-.033-.8-.347-.898-.772-.223-.967-.604-1.887-1.135-2.734-.232-.37-.196-.849.089-1.181l1.529-1.784-1.52-1.52-1.784 1.529c-.332.286-.81.321-1.181.089-.848-.53-1.768-.912-2.734-1.135-.426-.099-.739-.462-.772-.898l-.180-2.341-2.148.001-.180 2.34c-.033.437-.347.8-.772.898-.967.223-1.887.604-2.734 1.135-.37.232-.849.197-1.181-.089l-1.785-1.529-1.52 1.52 1.529 1.784c.285.332.321.811.089 1.181-.53.848-.912 1.768-1.135 2.734-.099.426-.462.739-.898.772l-2.341.180.002 2.148 2.34.180c.437.033.8.347.898.772.223.967.604 1.887 1.135 2.734.232.37.196.849-.089 1.181l-1.529 1.784 1.52 1.52 1.784-1.529c.332-.287.813-.32 1.18-.089z" fill="#7D8590" />
+                <path d="m16 23c-3.859 0-7-3.141-7-7s3.141-7 7-7 7 3.141 7 7-3.141 7-7 7zm0-12c-2.757 0-5 2.243-5 5s2.243 5 5 5 5-2.243 5-5-2.243-5-5-5z" fill="#7D8590" />
+              </svg>
+              <a href="#about">About</a>
+            </button>
+            <button className="value text-white hover:text-pink-400 transition">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" className="w-5 h-5">
+                <path d="m109.9 20.63a6.232 6.232 0 0 0 -8.588-.22l-57.463 51.843c-.012.011-.02.024-.031.035s-.023.017-.034.027l-4.721 4.722a1.749 1.749 0 0 0 0 2.475l.341.342-3.16 3.16a8 8 0 0 0 -1.424 1.967 11.382 11.382 0 0 0 -12.055 10.609c-.006.036-.011.074-.015.111a5.763 5.763 0 0 1 -4.928 5.41 1.75 1.75 0 0 0 -.844 3.14c4.844 3.619 9.4 4.915 13.338 4.915a17.14 17.14 0 0 0 11.738-4.545l.182-.167a11.354 11.354 0 0 0 3.348-8.081c0-.225-.02-.445-.032-.667a8.041 8.041 0 0 0 1.962-1.421l3.16-3.161.342.342a1.749 1.749 0 0 0 2.475 0l4.722-4.722c.011-.011.018-.025.029-.036s.023-.018.033-.029l51.844-57.46a6.236 6.236 0 0 0 -.219-8.589zm-70.1 81.311-.122.111c-.808.787-7.667 6.974-17.826 1.221a9.166 9.166 0 0 0 4.36-7.036 1.758 1.758 0 0 0 .036-.273 7.892 7.892 0 0 1 9.122-7.414c.017.005.031.014.048.019a1.717 1.717 0 0 0 .379.055 7.918 7.918 0 0 1 4 13.317zm5.239-10.131c-.093.093-.194.176-.293.26a11.459 11.459 0 0 0 -6.289-6.286c.084-.1.167-.2.261-.3l3.161-3.161 6.321 6.326zm7.214-4.057-9.479-9.479 2.247-2.247 9.479 9.479zm55.267-60.879-50.61 56.092-9.348-9.348 56.092-50.61a2.737 2.737 0 0 1 3.866 3.866z" fill="#7D8590" />
+              </svg>
+              <a href="#projects">Projects</a>
+            </button>
+            <button className="value text-white hover:text-pink-400 transition">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" id="svg8" className="w-5 h-5">
+                <g transform="translate(-33.022 -30.617)" id="layer1">
+                  <path d="m49.021 31.617c-2.673 0-4.861 2.188-4.861 4.861 0 1.606.798 3.081 1.873 3.834h-7.896c-1.7 0-3.098 1.401-3.098 3.1s1.399 3.098 3.098 3.098h4.377l.223 2.641s-1.764 8.565-1.764 8.566c-.438 1.642.55 3.355 2.191 3.795s3.327-.494 3.799-2.191l2.059-5.189 2.059 5.189c.44 1.643 2.157 2.631 3.799 2.191s2.63-2.153 2.191-3.795l-1.764-8.566.223-2.641h4.377c1.699 0 3.098-1.399 3.098-3.098s-1.397-3.1-3.098-3.1h-7.928c1.102-.771 1.904-2.228 1.904-3.834 0-2.672-2.189-4.861-4.862-4.861zm0 2c1.592 0 2.861 1.27 2.861 2.861 0 1.169-.705 2.214-1.789 2.652-.501.203-.75.767-.563 1.273l.463 1.254c.145.393.519.654.938.654h8.975c.626 0 1.098.473 1.098 1.1s-.471 1.098-1.098 1.098h-5.297c-.52 0-.952.398-.996.916l-.311 3.701c-.008.096-.002.191.018.285 0 0 1.813 8.802 1.816 8.82.162.604-.173 1.186-.777 1.348s-1.184-.173-1.346-.777c-.01-.037-3.063-7.76-3.063-7.76-.334-.842-1.525-.842-1.859 0 0 0-3.052 7.723-3.063 7.76-.162.604-.741.939-1.346.777s-.939-.743-.777-1.348c.004-.019 1.816-8.82 1.816-8.82.020-.094.025-.189.018-.285l-.311-3.701c-.044-.518-.477-.916-.996-.916h-5.297c-.627 0-1.098-.471-1.098-1.098s.472-1.1 1.098-1.1h8.975c.419 0 .793-.262.938-.654l.463-1.254c.188-.507-.062-1.07-.563-1.273-1.084-.438-1.789-1.483-1.789-2.652.001-1.591 1.271-2.861 2.862-2.861z" fill="#7D8590" />
+                </g>
+              </svg>
+              <a href="#games">Games</a>
+            </button>
+            <button className="value text-white hover:text-pink-400 transition">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 25" fill="none" className="w-5 h-5">
+                <path fillRule="evenodd" fill="#7D8590" d="m11.9572 4.31201c-3.35401 0-6.00906 2.59741-6.00906 5.67742v3.29037c0 .1986-.05916.3927-.16992.5576l-1.62529 2.4193-.01077.0157c-.18701.2673-.16653.5113-.07001.6868.10031.1825.31959.3528.67282.3528h14.52603c.2546 0 .5013-.1515.6391-.3968.1315-.2343.1117-.4475-.0118-.6093-.0065-.0085-.0129-.0171-.0191-.0258l-1.7269-2.4194c-.121-.1695-.186-.3726-.186-.5809v-3.29037c0-1.54561-.6851-3.023-1.7072-4.00431-1.1617-1.01594-2.6545-1.67311-4.3019-1.67311zm-8.00906 5.67742c0-4.27483 3.64294-7.67742 8.00906-7.67742 2.2055 0 4.1606.88547 5.6378 2.18455.01.00877.0198.01774.0294.02691 1.408 1.34136 2.3419 3.34131 2.3419 5.46596v2.97007l1.5325 2.1471c.6775.8999.6054 1.9859.1552 2.7877-.4464.795-1.3171 1.4177-2.383 1.4177h-14.52603c-2.16218 0-3.55087-2.302-2.24739-4.1777l1.45056-2.1593zm4.05187 11.32257c0-.5523.44772-1 1-1h5.99999c.5523 0 1 .4477 1 1s-.4477 1-1 1h-5.99999c-.55228 0-1-.4477-1-1z" clipRule="evenodd" />
+              </svg>
+              <a href="#blog">Blog</a>
+            </button>
+            <button onClick={toggleTheme} className={`p-2 rounded-full ${theme === 'glitchyChaos' ? 'bg-red-600' : 'bg-pink-500'} text-white hover:scale-110 transition`}>
+              {theme === 'glitchyChaos' ? '🌞' : '🌙'}
+            </button>
+          </div>
+        </div>
+      );
+    };
+
+    // HeroSection Component
+    const HeroSection = () => {
+      const { theme } = React.useContext(ThemeContext);
+      return (
+        <section id="hero" className={`min-h-screen flex items-center justify-center px-6 relative overflow-hidden ${theme === 'glitchyChaos' ? 'bg-black' : 'bg-black'}`}>
+          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1600585154347-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80')] bg-cover bg-center opacity-20 glitch-bg"></div>
+          <div className={`absolute inset-0 glitch-effect ${theme === 'glitchyChaos' ? 'glitch-light' : 'glitch-heavy'}`}></div>
+          <div className="max-w-6xl w-full flex flex-col items-center relative z-10">
+            <h1 className={`text-5xl md:text-8xl font-extrabold text-center tracking-wide ${theme === 'glitchyChaos' ? 'text-red-600' : 'text-pink-500'} glitch-text`}>
+              <span className="block">MULTIVERSE</span>
+              <span className="block">WEB-SLINGER</span>
+            </h1>
+            <p className={`mt-4 text-center ${theme === 'glitchyChaos' ? 'text-gray-400' : 'text-gray-300'} max-w-md glitch-subtext`}>
+              I swing through fractured dimensions, weaving chaos into code.
+            </p>
+            <button className="btn-shine mt-6">Enter the Void</button>
+          </div>
+        </section>
+      );
+    };
+
+    // AboutMePreview Component
+    const AboutMePreview = () => {
+      const { theme } = React.useContext(ThemeContext);
+      return (
+        <section id="about" className={`py-24 px-6 ${theme === 'glitchyChaos' ? 'bg-gray-900' : 'bg-black'} relative`}>
+          <div className="max-w-4xl mx-auto relative z-10">
+            <div className={`p-6 ${theme === 'glitchyChaos' ? 'bg-black border-2 border-red-600' : 'bg-black border-2 border-pink-500'} transform glitch-fragment animate-glitch-reveal`}>
+              <h2 className={`text-4xl font-bold mb-4 ${theme === 'glitchyChaos' ? 'text-red-600' : 'text-pink-500'} glitch-text`}>About Me</h2>
+              <p className={`text-lg ${theme === 'glitchyChaos' ? 'text-gray-400' : 'text-gray-300'} glitch-subtext`}>
+                I’m a glitch in the multiverse, creating digital chaos with Spider-Man’s flair.
+              </p>
+              <a href="#" className={`mt-4 inline-block ${theme === 'glitchyChaos' ? 'text-red-600' : 'text-pink-500'} hover:underline glitch-subtext`}>Decode Me</a>
+            </div>
+          </div>
+        </section>
+      );
+    };
+
+    // FeaturedProjects Component (Using Uiverse.io Card Style)
+    const FeaturedProjects = () => {
+      const { theme } = React.useContext(ThemeContext);
+      return (
+        <section id="projects" className={`py-24 px-6 ${theme === 'glitchyChaos' ? 'bg-black' : 'bg-gray-900'} relative`}>
+          <div className="max-w-6xl mx-auto relative z-10">
+            <h2 className={`text-4xl font-bold mb-12 text-center ${theme === 'glitchyChaos' ? 'text-red-600' : 'text-pink-500'} glitch-text`}>Featured Projects</h2>
+            <div className="flex flex-wrap justify-center gap-8">
+              {Array(3).fill(0).map((_, index) => (
+                <div key={index} className="card glitch-fragment animate-glitch-reveal">
+                  <div className="content">
+                    <div className="back">
+                      <div className="back-content">
+                        <svg stroke="#ffffff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" height="50px" width="50px" fill="#ffffff">
+                          <path d="M20.84375 0.03125C20.191406 0.0703125 19.652344 0.425781 19.21875 1.53125C18.988281 2.117188 18.5 3.558594 18.03125 4.9375C17.792969 5.636719 17.570313 6.273438 17.40625 6.75C17.390625 6.796875 17.414063 6.855469 17.40625 6.90625C17.398438 6.925781 17.351563 6.949219 17.34375 6.96875L17.25 7.25C18.566406 7.65625 19.539063 8.058594 19.625 8.09375C22.597656 9.21875 28.351563 11.847656 33.28125 16.78125C38.5 22 41.183594 28.265625 42.09375 30.71875C42.113281 30.761719 42.375 31.535156 42.75 32.84375C42.757813 32.839844 42.777344 32.847656 42.78125 32.84375C43.34375 32.664063 44.953125 32.09375 46.3125 31.625C47.109375 31.351563 47.808594 31.117188 48.15625 31C49.003906 30.714844 49.542969 30.292969 49.8125 29.6875C50.074219 29.109375 50.066406 28.429688 49.75 27.6875C49.605469 27.347656 49.441406 26.917969 49.25 26.4375C47.878906 23.007813 45.007813 15.882813 39.59375 10.46875C33.613281 4.484375 25.792969 1.210938 22.125 0.21875C21.648438 0.0898438 21.234375 0.0078125 20.84375 0.03125 Z M 16.46875 9.09375L0.0625 48.625C-0.09375 48.996094 -0.00390625 49.433594 0.28125 49.71875C0.472656 49.910156 0.738281 50 1 50C1.128906 50 1.253906 49.988281 1.375 49.9375L40.90625 33.59375C40.523438 32.242188 40.222656 31.449219 40.21875 31.4375C39.351563 29.089844 36.816406 23.128906 31.875 18.1875C27.035156 13.34375 21.167969 10.804688 18.875 9.9375C18.84375 9.925781 17.8125 9.5 16.46875 9.09375 Z M 17 16C19.761719 16 22 18.238281 22 21C22 23.761719 19.761719 26 17 26C15.140625 26 13.550781 24.972656 12.6875 23.46875L15.6875 16.1875C16.101563 16.074219 16.550781 16 17 16 Z M 31 22C32.65625 22 34 23.34375 34 25C34 25.917969 33.585938 26.730469 32.9375 27.28125L32.90625 27.28125C33.570313 27.996094 34 28.949219 34 30C34 32.210938 32.210938 34 30 34C27.789063 34 26 32.210938 26 30C26 28.359375 26.996094 26.960938 28.40625 26.34375L28.3125 26.3125C28.117188 25.917969 28 25.472656 28 25C28 23.34375 29.34375 22 31 22 Z M 21 32C23.210938 32 25 33.789063 25 36C25 36.855469 24.710938 37.660156 24.25 38.3125L20.3125 39.9375C18.429688 39.609375 17 37.976563 17 36C17 33.789063 18.789063 32 21 32 Z M 9 34C10.65625 34 12 35.34375 12 37C12 38.65625 10.65625 40 9 40C7.902344 40 6.960938 39.414063 6.4375 38.53125L8.25 34.09375C8.488281 34.03125 8.742188 34 9 34Z" />
+                        </g>
+                      </svg>
+                      <strong>Hover Me</strong>
+                    </div>
+                  </div>
+                  <div className="front">
+                    <div className="img">
+                      <div className="circle"></div>
+                      <div className="circle" id="right"></div>
+                      <div className="circle" id="bottom"></div>
+                    </div>
+                    <div className="front-content">
+                      <small className="badge">Project {index + 1}</small>
+                      <div className="description">
+                        <div className="title">
+                          <p className="title"><strong>Glitchy Creation {index + 1}</strong></p>
+                          <svg fillRule="nonzero" height="15px" width="15px" viewBox="0,0,256,256" xmlns="http://www.w3.org/2000/svg">
+                            <g style={{mixBlendMode: 'normal'}} textAnchor="none" fontSize="none" fontWeight="none" fontFamily="none" strokeDashoffset={0} strokeDasharray strokeMiterlimit={10} strokeLinejoin="miter" strokeLinecap="butt" strokeWidth={1} stroke="none" fillRule="nonzero" fill="#20c997">
+                              <g transform="scale(8,8)">
+                                <path d="M25,27l-9,-6.75l-9,6.75v-23h18z" />
+                              </g>
+                            </g>
+                          </svg>
+                        </div>
+                        <p className="card-footer">Built in Chaos | Multiverse</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    };
+
+    // GameShowcasePreview Component
+    const GameShowcasePreview = () => {
+      const { theme } = React.useContext(ThemeContext);
+      return (
+        <section id="games" className={`py-24 px-6 ${theme === 'glitchyChaos' ? 'bg-gray-900' : 'bg-black'} relative`}>
+          <div className="max-w-4xl mx-auto relative z-10">
+            <h2 className={`text-4xl font-bold mb-12 text-center ${theme === 'glitchyChaos' ? 'text-red-600' : 'text-pink-500'} glitch-text`}>Game Showcase</h2>
+            <div className="flex flex-wrap justify-center gap-8">
+              {Array(3).fill(0).map((_, index) => (
+                <div key={index} className={`card glitch-fragment animate-glitch-reveal ${theme === 'glitchyChaos' ? 'border-red-600' : 'border-pink-500'}`}>
+                  <div className="content">
+                    <div className="back">
+                      <div className="back-content">
+                        <svg stroke="#ffffff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" height="50px" width="50px" fill="#ffffff">
+                          <path d="M20.84375 0.03125C20.191406 0.0703125 19.652344 0.425781 19.21875 1.53125C18.988281 2.117188 18.5 3.558594 18.03125 4.9375C17.792969 5.636719 17.570313 6.273438 17.40625 6.75C17.390625 6.796875 17.414063 6.855469 17.40625 6.90625C17.398438 6.925781 17.351563 6.949219 17.34375 6.96875L17.25 7.25C18.566406 7.65625 19.539063 8.058594 19.625 8.09375C22.597656 9.21875 28.351563 11.847656 33.28125 16.78125C38.5 22 41.183594 28.265625 42.09375 30.71875C42.113281 30.761719 42.375 31.535156 42.75 32.84375C42.757813 32.839844 42.777344 32.847656 42.78125 32.84375C43.34375 32.664063 44.953125 32.09375 46.3125 31.625C47.109375 31.351563 47.808594 31.117188 48.15625 31C49.003906 30.714844 49.542969 30.292969 49.8125 29.6875C50.074219 29.109375 50.066406 28.429688 49.75 27.6875C49.605469 27.347656 49.441406 26.917969 49.25 26.4375C47.878906 23.007813 45.007813 15.882813 39.59375 10.46875C33.613281 4.484375 25.792969 1.210938 22.125 0.21875C21.648438 0.0898438 21.234375 0.0078125 20.84375 0.03125 Z M 16.46875 9.09375L0.0625 48.625C-0.09375 48.996094 -0.00390625 49.433594 0.28125 49.71875C0.472656 49.910156 0.738281 50 1 50C1.128906 50 1.253906 49.988281 1.375 49.9375L40.90625 33.59375C40.523438 32.242188 40.222656 31.449219 40.21875 31.4375C39.351563 29.089844 36.816406 23.128906 31.875 18.1875C27.035156 13.34375 21.167969 10.804688 18.875 9.9375C18.84375 9.925781 17.8125 9.5 16.46875 9.09375 Z M 17 16C19.761719 16 22 18.238281 22 21C22 23.761719 19.761719 26 17 26C15.140625 26 13.550781 24.972656 12.6875 23.46875L15.6875 16.1875C16.101563 16.074219 16.550781 16 17 16 Z M 31 22C32.65625 22 34 23.34375 34 25C34 25.917969 33.585938 26.730469 32.9375 27.28125L32.90625 27.28125C33.570313 27.996094 34 28.949219 34 30C34 32.210938 32.210938 34 30 34C27.789063 34 26 32.210938 26 30C26 28.359375 26.996094 26.960938 28.40625 26.34375L28.3125 26.3125C28.117188 25.917969 28 25.472656 28 25C28 23.34375 29.34375 22 31 22 Z M 21 32C23.210938 32 25 33.789063 25 36C25 36.855469 24.710938 37.660156 24.25 38.3125L20.3125 39.9375C18.429688 39.609375 17 37.976563 17 36C17 33.789063 18.789063 32 21 32 Z M 9 34C10.65625 34 12 35.34375 12 37C12 38.65625 10.65625 40 9 40C7.902344 40 6.960938 39.414063 6.4375 38.53125L8.25 34.09375C8.488281 34.03125 8.742188 34 9 34Z" />
+                        </g>
+                      </svg>
+                      <strong>Hover Me</strong>
+                    </div>
+                  </div>
+                  <div className="front">
+                    <div className="img">
+                      <div className="circle"></div>
+                      <div className="circle" id="right"></div>
+                      <div className="circle" id="bottom"></div>
+                    </div>
+                    <div className="front-content">
+                      <small className="badge">Game {index + 1}</small>
+                      <div className="description">
+                        <div className="title">
+                          <p className="title"><strong>Chaos Game {index + 1}</strong></p>
+                          <svg fillRule="nonzero" height="15px" width="15px" viewBox="0,0,256,256" xmlns="http://www.w3.org/2000/svg">
+                            <g style={{mixBlendMode: 'normal'}} textAnchor="none" fontSize="none" fontWeight="none" fontFamily="none" strokeDashoffset={0} strokeDasharray strokeMiterlimit={10} strokeLinejoin="miter" strokeLinecap="butt" strokeWidth={1} stroke="none" fillRule="nonzero" fill="#20c997">
+                              <g transform="scale(8,8)">
+                                <path d="M25,27l-9,-6.75l-9,6.75v-23h18z" />
+                              </g>
+                            </g>
+                          </svg>
+                        </div>
+                        <p className="card-footer">Multiverse Adventure</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    };
+
+    // BlogCard Component (Using Uiverse.io Card Style)
+    const BlogCard = ({ title, thumbnail, tags, description }) => {
+      const { theme } = React.useContext(ThemeContext);
+      return (
+        <div className={`card glitch-fragment animate-glitch-reveal ${theme === 'glitchyChaos' ? 'border-red-600' : 'border-pink-500'}`}>
+          <div className="content">
+            <div className="back">
+              <div className="back-content">
+                <svg stroke="#ffffff" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" height="50px" width="50px" fill="#ffffff">
+                  <path d="M20.84375 0.03125C20.191406 0.0703125 19.652344 0.425781 19.21875 1.53125C18.988281 2.117188 18.5 3.558594 18.03125 4.9375C17.792969 5.636719 17.570313 6.273438 17.40625 6.75C17.390625 6.796875 17.414063 6.855469 17.40625 6.90625C17.398438 6.925781 17.351563 6.949219 17.34375 6.96875L17.25 7.25C18.566406 7.65625 19.539063 8.058594 19.625 8.09375C22.597656 9.21875 28.351563 11.847656 33.28125 16.78125C38.5 22 41.183594 28.265625 42.09375 30.71875C42.113281 30.761719 42.375 31.535156 42.75 32.84375C42.757813 32.839844 42.777344 32.847656 42.78125 32.84375C43.34375 32.664063 44.953125 32.09375 46.3125 31.625C47.109375 31.351563 47.808594 31.117188 48.15625 31C49.003906 30.714844 49.542969 30.292969 49.8125 29.6875C50.074219 29.109375 50.066406 28.429688 49.75 27.6875C49.605469 27.347656 49.441406 26.917969 49.25 26.4375C47.878906 23.007813 45.007813 15.882813 39.59375 10.46875C33.613281 4.484375 25.792969 1.210938 22.125 0.21875C21.648438 0.0898438 21.234375 0.0078125 20.84375 0.03125 Z M 16.46875 9.09375L0.0625 48.625C-0.09375 48.996094 -0.00390625 49.433594 0.28125 49.71875C0.472656 49.910156 0.738281 50 1 50C1.128906 50 1.253906 49.988281 1.375 49.9375L40.90625 33.59375C40.523438 32.242188 40.222656 31.449219 40.21875 31.4375C39.351563 29.089844 36.816406 23.128906 31.875 18.1875C27.035156 13.34375 21.167969 10.804688 18.875 9.9375C18.84375 9.925781 17.8125 9.5 16.46875 9.09375 Z M 17 16C19.761719 16 22 18.238281 22 21C22 23.761719 19.761719 26 17 26C15.140625 26 13.550781 24.972656 12.6875 23.46875L15.6875 16.1875C16.101563 16.074219 16.550781 16 17 16 Z M 31 22C32.65625 22 34 23.34375 34 25C34 25.917969 33.585938 26.730469 32.9375 27.28125L32.90625 27.28125C33.570313 27.996094 34 28.949219 34 30C34 32.210938 32.210938 34 30 34C27.789063 34 26 32.210938 26 30C26 28.359375 26.996094 26.960938 28.40625 26.34375L28.3125 26.3125C28.117188 25.917969 28 25.472656 28 25C28 23.34375 29.34375 22 31 22 Z M 21 32C23.210938 32 25 33.789063 25 36C25 36.855469 24.710938 37.660156 24.25 38.3125L20.3125 39.9375C18.429688 39.609375 17 37.976563 17 36C17 33.789063 18.789063 32 21 32 Z M 9 34C10.65625 34 12 35.34375 12 37C12 38.65625 10.65625 40 9 40C7.902344 40 6.960938 39.414063 6.4375 38.53125L8.25 34.09375C8.488281 34.03125 8.742188 34 9 34Z" />
+                        </g>
+                      </svg>
+                      <strong>Hover Me</strong>
+                    </div>
+                  </div>
+                  <div className="front">
+                    <div className="img">
+                      <div className="circle"></div>
+                      <div className="circle" id="right"></div>
+                      <div className="circle" id="bottom"></div>
+                    </div>
+                    <div className="front-content">
+                      <small className="badge">{tags.join(', ')}</small>
+                      <div className="description">
+                        <div className="title">
+                          <p className="title"><strong>{title}</strong></p>
+                          <svg fillRule="nonzero" height="15px" width="15px" viewBox="0,0,256,256" xmlns="http://www.w3.org/2000/svg">
+                            <g style={{mixBlendMode: 'normal'}} textAnchor="none" fontSize="none" fontWeight="none" fontFamily="none" strokeDashoffset={0} strokeDasharray strokeMiterlimit={10} strokeLinejoin="miter" strokeLinecap="butt" strokeWidth={1} stroke="none" fillRule="nonzero" fill="#20c997">
+                              <g transform="scale(8,8)">
+                                <path d="M25,27l-9,-6.75l-9,6.75v-23h18z" />
+                              </g>
+                            </g>
+                          </svg>
+                        </div>
+                        <p className="card-footer">{description}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    };
+
+    // BlogPreview Component
+    const BlogPreview = () => {
+      const { theme } = React.useContext(ThemeContext);
+      const blogPosts = [
+        { title: "Blog Post 1", thumbnail: "https://via.placeholder.com/300", tags: ["Tech", "AI"], description: "A short description of the blog post goes here." },
+        { title: "Blog Post 2", thumbnail: "https://via.placeholder.com/300", tags: ["Gaming"], description: "A short description of the blog post goes here." },
+        { title: "Blog Post 3", thumbnail: "https://via.placeholder.com/300", tags: ["Dev"], description: "A short description of the blog post goes here." },
+      ];
+
+      return (
+        <section id="blog" className={`py-24 px-6 ${theme === 'glitchyChaos' ? 'bg-black' : 'bg-gray-900'} relative`}>
+          <div className="max-w-6xl mx-auto relative z-10">
+            <h2 className={`text-4xl font-bold mb-12 text-center ${theme === 'glitchyChaos' ? 'text-red-600' : 'text-pink-500'} glitch-text`}>Recent Blog Posts</h2>
+            <div className="flex flex-wrap justify-center gap-8">
+              {blogPosts.map((post, index) => (
+                <BlogCard key={index} {...post} />
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    };
+
+    // Footer Component (Using Uiverse.io Button Style)
+    const Footer = () => {
+      const { theme } = React.useContext(ThemeContext);
+      return (
+        <footer className={`py-12 px-6 ${theme === 'glitchyChaos' ? 'bg-gray-900' : 'bg-black'} text-center relative`}>
+          <div className="max-w-6xl mx-auto relative z-10">
+            <div className="main flex justify-center flex-wrap gap-4">
+              <div className="card">
+                <svg fillRule="nonzero" height="30px" width="30px" viewBox="0,0,256,256" xmlns="http://www.w3.org/2000/svg" className="instagram">
+                  <g style={{mixBlendMode: 'normal'}} textAnchor="none" fontSize="none" fontWeight="none" fontFamily="none" strokeDashoffset={0} strokeDasharray strokeMiterlimit={10} strokeLinejoin="miter" strokeLinecap="butt" strokeWidth={1} stroke="none" fillRule="nonzero">
+                    <g transform="scale(8,8)">
+                      <path d="M11.46875,5c-3.55078,0 -6.46875,2.91406 -6.46875,6.46875v9.0625c0,3.55078 2.91406,6.46875 6.46875,6.46875h9.0625c3.55078,0 6.46875,-2.91406 6.46875,-6.46875v-9.0625c0,-3.55078 -2.91406,-6.46875 -6.46875,-6.46875zM11.46875,7h9.0625c2.47266,0 4.46875,1.99609 4.46875,4.46875v9.0625c0,2.47266 -1.99609,4.46875 -4.46875,4.46875h-9.0625c-2.47266,0 -4.46875,-1.99609 -4.46875,-4.46875v-9.0625c0,-2.47266 1.99609,-4.46875 4.46875,-4.46875zM21.90625,9.1875c-0.50391,0 -0.90625,0.40234 -0.90625,0.90625c0,0.50391 0.40234,0.90625 0.90625,0.90625c0.50391,0 0.90625,-0.40234 0.90625,-0.90625c0,-0.50391 -0.40234,-0.90625 -0.90625,-0.90625zM16,10c-3.30078,0 -6,2.69922 -6,6c0,3.30078 2.69922,6 6,6c3.30078,0 6,-2.69922 6,-6c0,-3.30078 -2.69922,-6 -6,-6zM16,12c2.22266,0 4,1.77734 4,4c0,2.22266 -1.77734,4 -4,4c-2.22266,0 -4,-1.77734 -4,-4c0,-2.22266 1.77734,-4 4,-4z" />
+                    </g>
+                  </g>
+                </svg>
+              </div>
+              <div className="card">
+                <svg height="30px" width="30px" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" className="twitter">
+                  <path d="M42,12.429c-1.323,0.586-2.746,0.977-4.247,1.162c1.526-0.906,2.7-2.351,3.251-4.058c-1.428,0.837-3.01,1.452-4.693,1.776C34.967,9.884,33.05,9,30.926,9c-4.08,0-7.387,3.278-7.387,7.32c0,0.572,0.067,1.129,0.193,1.67c-6.138-0.308-11.582-3.226-15.224-7.654c-0.64,1.082-1,2.349-1,3.686c0,2.541,1.301,4.778,3.285,6.096c-1.211-0.037-2.351-0.374-3.349-0.914c0,0.022,0,0.055,0,0.086c0,3.551,2.547,6.508,5.923,7.181c-0.617,0.169-1.269,0.263-1.941,0.263c-0.477,0-0.942-0.054-1.392-0.135c0.94,2.902,3.667,5.023,6.898,5.086c-2.528,1.96-5.712,3.134-9.174,3.134c-0.598,0-1.183-0.034-1.761-0.104C9.268,36.786,13.152,38,17.321,38c13.585,0,21.017-11.156,21.017-20.834c0-0.317-0.01-0.633-0.025-0.945C39.763,15.197,41.013,13.905,42,12.429" />
+                </svg>
+              </div>
+              <div className="card">
+                <svg height="30px" width="30px" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" className="dribble">
+                  <path d="M20,38.5C9.799,38.5,1.5,30.201,1.5,20S9.799,1.5,20,1.5S38.5,9.799,38.5,20S30.201,38.5,20,38.5z" />
+                  <path d="M20,2c9.925,0,18,8.075,18,18s-8.075,18-18,18S2,29.925,2,20S10.075,2,20,2 M20,1 C9.507,1,1,9.507,1,20s8.507,19,19,19s19-8.507,19-19S30.493,1,20,1L20,1z" fill="#ea4c89" />
+                  <path d="M28.352 36.914c0 0-3.032-21.087-15.63-34.292M1.269 17.848c0 0 24.2 2.117 32.075-11.102M7.804 34.152c0 0 8.624-19.807 31.058-12.194" strokeMiterlimit={10} stroke="#ea4c89" fill="none" />
+                </svg>
+              </div>
+              <div className="card">
+                <svg height="30px" width="30px" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg" className="codepen">
+                  <path d="M 25 4 L 4 17.34375 L 4 32.652344 L 25 46 L 46 32.65625 L 46 17.34375 Z M 25 29.183594 L 19.066406 25.070313 L 25 21.023438 L 30.933594 25.070313 Z M 27 17.605469 L 27 9.949219 L 40.429688 18.484375 L 34.410156 22.65625 Z M 23 17.605469 L 15.589844 22.65625 L 9.570313 18.484375 L 23 9.949219 Z M 12.09375 25.042969 L 8 27.832031 L 8 22.203125 Z M 15.570313 27.453125 L 23 32.605469 L 23 40.050781 L 9.589844 31.527344 Z M 27 32.605469 L 34.429688 27.453125 L 40.410156 31.527344 L 27 40.050781 Z M 37.90625 25.042969 L 42 22.203125 L 42 27.832031 Z" />
+                </svg>
+              </div>
+              <div className="card">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" height="23px" width="23px" className="uiverse">
+                  <path fill="url(#paint0_linear_501_142)" d="M38.0481 4.82927C38.0481 2.16214 40.018 0 42.4481 0H51.2391C53.6692 0 55.6391 2.16214 55.6391 4.82927V40.1401C55.6391 48.8912 53.2343 55.6657 48.4248 60.4636C43.6153 65.2277 36.7304 67.6098 27.7701 67.6098C18.8099 67.6098 11.925 65.2953 7.11548 60.6663C2.37183 56.0036 3.8147e-06 49.2967 3.8147e-06 40.5456V4.82927C3.8147e-06 2.16213 1.96995 0 4.4 0H13.2405C15.6705 0 17.6405 2.16214 17.6405 4.82927V39.1265C17.6405 43.7892 18.4805 47.2018 20.1605 49.3642C21.8735 51.5267 24.4759 52.6079 27.9678 52.6079C31.4596 52.6079 34.0127 51.5436 35.6268 49.4149C37.241 47.2863 38.0481 43.8399 38.0481 39.0758V4.82927Z" />
+                  <path fill="url(#paint1_linear_501_142)" d="M86.9 61.8682C86.9 64.5353 84.9301 66.6975 82.5 66.6975H73.6595C71.2295 66.6975 69.2595 64.5353 69.2595 61.8682V4.82927C69.2595 2.16214 71.2295 0 73.6595 0H82.5C84.9301 0 86.9 2.16214 86.9 4.82927V61.8682Z" />
+                  <path fill="url(#paint2_linear_501_142)" d="M2.86102e-06 83.2195C2.86102e-06 80.5524 1.96995 78.3902 4.4 78.3902H83.6C86.0301 78.3902 88 80.5524 88 83.2195V89.1707C88 91.8379 86.0301 94 83.6 94H4.4C1.96995 94 0 91.8379 0 89.1707L2.86102e-06 83.2195Z" />
+                  <defs>
+                    <linearGradient gradientUnits="userSpaceOnUse" y2="87.6201" x2="96.1684" y1={0} x1={0} id="paint0_linear_501_142">
+                      <stop stopColor="#BF66FF" />
+                      <stop stopColor="#6248FF" offset="0.510417" />
+                      <stop stopColor="#00DDEB" offset={1} />
+                    </linearGradient>
+                    <linearGradient gradientUnits="userSpaceOnUse" y2="87.6201" x2="96.1684" y1={0} x1={0} id="paint1_linear_501_142">
+                      <stop stopColor="#BF66FF" />
+                      <stop stopColor="#6248FF" offset="0.510417" />
+                      <stop stopColor="#00DDEB" offset={1} />
+                    </linearGradient>
+                    <linearGradient gradientUnits="userSpaceOnUse" y2="87.6201" x2="96.1684" y1={0} x1={0} id="paint2_linear_501_142">
+                      <stop stopColor="#BF66FF" />
+                      <stop stopColor="#6248FF" offset="0.510417" />
+                      <stop stopColor="#00DDEB" offset={1} />
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </div>
+              <div className="card">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="30px" height="30px" className="discord">
+                  <path d="M40,12c0,0-4.585-3.588-10-4l-0.488,0.976C34.408,10.174,36.654,11.891,39,14c-4.045-2.065-8.039-4-15-4s-10.955,1.935-15,4c2.346-2.109,5.018-4.015,9.488-5.024L18,8c-5.681,0.537-10,4-10,4s-5.121,7.425-6,22c5.162,5.953,13,6,13,6l1.639-2.185C13.857,36.848,10.715,35.121,8,32c3.238,2.45,8.125,5,16,5s12.762-2.55,16-5c-2.715,3.121-5.857,4.848-8.639,5.815L33,40c0,0,7.838-0.047,13-6C45.121,19.425,40,12,40,12z M17.5,30c-1.933,0-3.5-1.791-3.5-4c0-2.209,1.567-4,3.5-4s3.5,1.791,3.5,4C21,28.209,19.433,30,17.5,30z M30.5,30c-1.933,0-3.5-1.791-3.5-4c0-2.209,1.567-4,3.5-4s3.5,1.791,3.5,4C34,28.209,32.433,30,30.5,30z" />
+                </svg>
+              </div>
+              <div className="card">
+                <svg height="30px" width="30px" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg" className="github">
+                  <path d="M15,3C8.373,3,3,8.373,3,15c0,5.623,3.872,10.328,9.092,11.63C12.036,26.468,12,26.28,12,26.047v-2.051 c-0.487,0-1.303,0-1.508,0c-0.821,0-1.551-0.353-1.905-1.009c-0.393-0.729-0.461-1.844-1.435-2.526 c-0.289-0.227-0.069-0.486,0.264-0.451c0.615,0.174,1.125,0.596,1.605,1.222c0.478,0.627,0.703,0.769,1.596,0.769 c0.433,0,1.081-0.025,1.691-0.121c0.328-0.833,0.895-1.6,1.588-1.962c-3.996-0.411-5.903-2.399-5.903-5.098 c0-1.162,0.495-2.286,1.336-3.233C9.053,10.647,8.706,8.73,9.435,8c1.798,0,2.885,1.166,3.146,1.481C13.477,9.174,14.461,9,15.495,9 c1.036,0,2.024,0.174,2.922,0.483C18.675,9.17,19.763,8,21.565,8c0.732,0.731,0.381,2.656,0.102,3.594 c0.836,0.945,1.328,2.066,1.328,3.226c0,2.697-1.904,4.684-5.894,5.097C18.199,20.49,19,22.1,19,23.313v2.734 c0,0.104-0.023,0.179-0.035,0.268C23.641,24.676,27,20.236,27,15C27,8.373,21.627,3,15,3z" />
+                </svg>
+              </div>
+              <div className="card">
+                <svg height="30px" width="30px" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" className="telegram">
+                  <path d="M24 4A20 20 0 1 0 24 44A20 20 0 1 0 24 4Z" />
+                  <path d="M33.95,15l-3.746,19.126c0,0-0.161,0.874-1.245,0.874c-0.576,0-0.873-0.274-0.873-0.274INFO 2025-05-19 22:13:50,043 autoreload 29848 3232 Watching for file changes with StatReloader
+INFO 2025-05-19 22:13:54,680 basehttp 29848 23664 "GET / HTTP/1.1" 200 21499
+WARNING 2025-05-19 22:13:54,792 log 29848 31140 Not Found: /assets/logo-white.png
+WARNING 2025-05-19 22:13:54,795 log 29848 23664 Not Found: /assets/logo.png
+WARNING 2025-05-19 22:13:54,795 basehttp 29848 31140 "GET /assets/logo-white.png HTTP/1.1" 404 4136
+WARNING 2025-05-19 22:13:54,796 basehttp 29848 23664 "GET /assets/logo.png HTTP/1.1" 404 4118
+WARNING 2025-05-19 22:13:56,860 log 29848 23664 Not Found: /favicon.ico
+WARNING 2025-05-19 22:13:56,861 basehttp 29848 23664 "GET /favicon.ico HTTP/1.1" 404 4106
+INFO 2025-05-19 22:14:07,879 basehttp 29848 23664 "GET /auth/login/ HTTP/1.1" 200 5687
+INFO 2025-05-19 22:14:11,144 basehttp 29848 23664 "GET /home/ HTTP/1.1" 200 21499
+WARNING 2025-05-19 22:14:11,170 log 29848 23664 Not Found: /home/assets/logo.png
+WARNING 2025-05-19 22:14:11,174 log 29848 31140 Not Found: /home/assets/logo-white.png
+WARNING 2025-05-19 22:14:11,174 basehttp 29848 23664 "GET /home/assets/logo.png HTTP/1.1" 404 4133
+WARNING 2025-05-19 22:14:11,175 basehttp 29848 31140 "GET /home/assets/logo-white.png HTTP/1.1" 404 4151

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redeem Loyalty Points</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(45deg, #e6f2ff, #ffffff);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 400px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        h2 {
+            color: #4682B4;
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .price-info {
+            background-color: #f0f8ff;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .price-info p {
+            margin-bottom: 10px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .price-info strong {
+            color: #4682B4;
+            font-weight: 600;
+        }
+
+        .btn {
+            display: inline-block;
+            background: linear-gradient(45deg, #4682B4, #6495ED);
+            color: white;
+            text-decoration: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .btn:hover {
+            background: linear-gradient(45deg, #6495ED, #4682B4);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(100, 149, 237, 0.3);
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 10px;
+            color: #4682B4;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Redeem Loyalty Points</h2>
+        <div class="price-info">
+            <p><strong>Original Price:</strong> ${{ flight.price }}</p>
+            <p><strong>Discounted Price:</strong> ${{ discounted_price }}</p>
+        </div>
+        <a href="{% url 'booking:book_flight' flight.id %}" class="btn">Proceed to Booking</a>
+        <a href="{% url 'customer:loyalty_program' %}" class="back-link">Back to Loyalty Program</a>
+    </div>
+</body>
+</html>

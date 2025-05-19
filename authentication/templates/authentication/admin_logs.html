@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyHigh Airlines - Audit Logs</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    {% load static %}
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            width: 100%;
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f6f5;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            height: 40px;
+        }
+
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            color: #007bff;
+        }
+
+        /* Main Layout */
+        .container {
+            min-height: calc(100vh - 120px);
+            width: 100%;
+            margin-top: 70px;
+        }
+
+        .content {
+            background: #fff;
+            padding: 30px;
+            width: 100%;
+            min-height: calc(100vh - 120px);
+        }
+
+        .content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        /* Breadcrumbs */
+        .breadcrumbs {
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .breadcrumbs a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .breadcrumbs a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumbs span {
+            color: #666;
+            margin: 0 5px;
+        }
+
+        /* Filter Form */
+        .filter-form {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            align-items: center;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .filter-form input[type="text"] {
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 250px;
+            transition: border-color 0.3s ease;
+        }
+
+        .filter-form input[type="text"]:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        .filter-form button {
+            background: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .filter-form button:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        /* Action Button */
+        .action-btn {
+            background: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-block;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .action-btn:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        /* Log Table */
+        .log-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            background: #fff;
+        }
+
+        .log-table th, .log-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .log-table th {
+            background: #007bff;
+            color: #fff;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+
+        .log-table td {
+            font-size: 14px;
+            color: #333;
+        }
+
+        .log-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .log-table tr {
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .log-table tr:hover {
+            background: #e9ecef;
+        }
+
+        .no-logs {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 16px;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+
+        .modal-content {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            width: 90%;
+            max-width: 600px;
+        }
+
+        .modal-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        .modal-content p {
+            color: #333;
+            font-size: 16px;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .modal-content button {
+            background: #c0392b;
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.3s ease, transform 0.2s ease;
+            cursor: pointer;
+        }
+
+        .modal-content button:hover {
+            background: #a32a1f;
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        .footer {
+            background: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer p {
+            font-size: 14px;
+            margin: 0;
+            flex: 1;
+            text-align: left;
+        }
+
+        .logout-btn {
+            background: #c0392b;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.3s ease, transform 0.2s ease;
+            cursor: pointer;
+        }
+
+        .logout-btn:hover {
+            background: #a32a1f;
+            transform: translateY(-2px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .footer {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .filter-form {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filter-form input[type="text"] {
+                width: 100%;
+            }
+
+            .modal-content {
+                width: 85%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .content {
+                padding: 15px;
+            }
+
+            .content h2 {
+                font-size: 28px;
+            }
+
+            .log-table th, .log-table td {
+                font-size: 12px;
+                padding: 10px;
+            }
+
+            .filter-form input[type="text"] {
+                font-size: 12px;
+            }
+
+            .action-btn, .filter-form button {
+                font-size: 12px;
+                padding: 8px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sticky Header -->
+    <div class="header">
+        <div class="logo-container">
+            <img src="{% static 'assets/logo.png' %}" alt="SkyHigh Airlines Logo" class="logo">
+            <h1>Audit Logs</h1>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Main Content -->
+        <main class="content">
+            <div class="breadcrumbs">
+                <a href="{% url 'home' %}">Home</a> <span>></span> 
+                <a href="{% url 'authentication:overview' %}">Admin Dashboard</a> <span>></span> 
+                <a href="#">Audit Logs</a>
+            </div>
+
+            <h2>Audit Logs</h2>
+
+            <!-- Filter Form -->
+            <form method="GET" class="filter-form">
+                <input type="text" name="user" placeholder="Filter by User" value="{{ request.GET.user }}">
+                <input type="text" name="action" placeholder="Filter by Action" value="{{ request.GET.action }}">
+                <button type="submit">Filter</button>
+            </form>
+
+            <!-- Export Button -->
+            <a href="{% url 'authentication:export_logs' %}" class="action-btn">Download CSV</a>
+
+            <!-- Log Entries -->
+            <table class="log-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Timestamp</th>
+                        <th>User</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for log in logs %}
+                        <tr onclick="openLogDetail('{{ log.id }}', '{{ log.action }}', '{{ log.details|escapejs }}')">
+                            <td>{{ log.id }}</td>
+                            <td>{{ log.timestamp|date:"Y-m-d H:i:s" }}</td>
+                            <td>{{ log.user.username|default:"Anonymous" }}</td>
+                            <td>{{ log.action }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="4" class="no-logs">No logs found.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <!-- Modal for Log Details -->
+            <div id="logModal" class="modal">
+                <div class="modal-content">
+                    <h3 id="modalTitle"></h3>
+                    <p id="modalDetails"></p>
+                    <button onclick="closeLogDetail()">Close</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2025 SkyHigh Airlines Management System. All rights reserved. | Last Updated: {{ last_updated|date:"F d, Y" }}</p>
+    </footer>
+
+    <!-- JavaScript for Modal -->
+    <script>
+        function openLogDetail(id, action, details) {
+            document.getElementById("modalTitle").innerText = "Log #" + id + " - " + action;
+            document.getElementById("modalDetails").innerText = details;
+            document.getElementById("logModal").style.display = "flex";
+        }
+
+        function closeLogDetail() {
+            document.getElementById("logModal").style.display = "none";
+        }
+    </script>
+</body>
+</html>

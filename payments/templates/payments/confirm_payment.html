@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkyHigh Airlines - Confirm Payment</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(45deg, #e6f2ff, #ffffff);
+            overflow: hidden;
+        }
+
+        .payment-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(100, 149, 237, 0.2);
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .payment-container h1 {
+            color: #4682B4;
+            margin-bottom: 30px;
+            font-size: 28px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .payment-info {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .payment-info p {
+            color: #333;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            color: #4682B4;
+            font-size: 16px;
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #4682B4, #6495ED);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .btn:hover {
+            background: linear-gradient(45deg, #6495ED, #4682B4);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(100, 149, 237, 0.3);
+        }
+
+        .btn-cancel {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+        }
+
+        .btn-cancel:hover {
+            background: linear-gradient(45deg, #ff8e8e, #ff6b6b);
+        }
+
+        .back-link {
+            color: #4682B4;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="payment-container">
+        <h1>Confirm Your Payment</h1>
+        <div class="payment-info">
+            <p><strong>Transaction ID:</strong> {{ payment.transaction_id }}</p>
+            <p><strong>Amount:</strong> ${{ payment.amount }}</p>
+            <p><strong>Payment Method:</strong> {{ payment.payment_method }}</p>
+        </div>
+        <form method="POST">
+            {% csrf_token %}
+            <label>Do you confirm the payment?</label>
+            <button type="submit" name="confirm_payment" value="yes" class="btn">Yes, Confirm</button>
+            <button type="submit" name="confirm_payment" value="no" class="btn btn-cancel">Cancel Payment</button>
+        </form>
+        
+        <a href="{% url 'booking:view_bookings' booking_id=booking.id %}" class="back-link">Go Back</a>
+    </div>
+</body>
+</html>
